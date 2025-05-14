@@ -3,7 +3,7 @@ import Landing from "./lib/pages/Landing.tsx";
 
 function App() {
   return (
-    <main>
+    <main className="w-full h-full">
       <BrowserRouter>
           <Routes>
               <Route path="landing" element={<Landing/>}/>

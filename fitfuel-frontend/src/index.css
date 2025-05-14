@@ -1,6 +1,22 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fitfuel-frontend/public/fonts/CabinetGrotesk/CabinetGrotesk-Extrabold.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Cabinet Grotesk', sans-serif;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -79,5 +95,32 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  h1 {
+    @apply text-5xl font-bold leading-tight;
+  }
+
+  h2 {
+    @apply text-4xl font-bold leading-snug;
+  }
+
+  h3 {
+    @apply text-3xl font-semibold;
+  }
+
+  h4 {
+    @apply text-2xl font-medium;
+  }
+
+  h5 {
+    @apply text-xl font-medium;
+  }
+
+  h6 {
+    @apply text-base font-medium;
+  }
+
+  p {
+    @apply text-base font-medium;
   }
 }
