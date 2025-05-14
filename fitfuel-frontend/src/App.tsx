@@ -1,5 +1,6 @@
 import {BrowserRouter, Route, Routes} from "react-router";
 import Landing from "./lib/pages/Landing.tsx";
+import Login from "./lib/pages/Login.tsx";
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <BrowserRouter>
           <Routes>
               <Route path="landing" element={<Landing/>}/>
+              <Route path="login" element={<Login/>}/>
           </Routes>
       </BrowserRouter>
     </main>

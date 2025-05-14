@@ -1,23 +1,64 @@
 import {Button} from "../../components/ui/button.tsx";
 import background from "../../assets/landing_background_2.png"
+import food_image from "../../assets/landing_image.png"
+import {useNavigate} from "react-router";
 
 function Landing() {
+    const navigate = useNavigate();
     return (
-        <main className="bg-foreground relative w-full h-full font-bold text-background flex flex-col justify-center items-center">
-            <img src={background} className="w-full h-full absolute z-10 opacity-25 object-cover"/>
-            <div className="flex flex-col justify-evenly items-center w-80 h-[75%] z-10">
-                <h1 className="w-full">FitFuel</h1>
-                <div className="flex flex-col justify-evenly h-52">
-                    <div>
-                        <h3>Nourish Your Body.</h3>
-                        <h3 className="text-destructive">Elevate Your Life.</h3>
+        <main className="relative w-full min-h-screen overflow-hidden bg-foreground text-background">
+            <img src={background} className="w-full h-full absolute z-10 opacity-15 object-cover"/>
+            <div className="relative z-10 flex flex-col md:flex-row justify-evenly w-full min-h-screen">
+                <div className="flex flex-col justify-center px-8 py-16 w-full md:hidden">
+                    <h1 className="text-5xl font-bold text-white mb-8">FitFuel</h1>
+                    <div className="mb-8">
+                        <h2 className="text-3xl font-bold text-white">Nourish Your Body,</h2>
+                        <h2 className="text-3xl font-bold text-destructive">Elevate Your Life.</h2>
                     </div>
-                    <p>
-                        Embark on a journey to better health with a personalized <span className="text-destructive font-bold max-w-xs">meal plan</span>. Discover the perfect balance of
-                        flavor and nutrition, designed to fuel your day with vitality.
+                    <p className="text-white mb-12 max-w-xs">
+                        Embark on a journey to better health with a personalized{" "}
+                        <span className="text-destructive font-bold">meal plan</span>. Discover the perfect balance of flavor and
+                        nutrition, designed to fuel your day with vitality.
                     </p>
+
+                    <Button
+                        className="bg-destructive text-white text-xl rounded-full w-48 h-16 font-bold hover:bg-destructive/90"
+                        onClick={() => navigate("/login")}
+                    >
+                        Get Started
+                    </Button>
                 </div>
-                <Button className="bg-destructive text-background text-xl rounded-3xl w-48 h-16 font-bold">Get Started</Button>
+                <div className="hidden md:flex w-full">
+                    <div className="flex flex-col justify-center px-16 py-8 w-1/2">
+                        <h1 className="text-6xl font-bold mb-8">FitFuel</h1>
+
+                        <div className="mb-8">
+                            <h2 className="text-4xl font-bold">Nourish Your Body,</h2>
+                            <h2 className="text-4xl font-bold text-destructive">Elevate Your Life.</h2>
+                        </div>
+
+                        <p className="mb-12 max-w-md text-lg">
+                            Embark on a journey to better health with a personalized{" "}
+                            <span className="text-destructive font-bold">meal plan</span>. Discover the perfect balance of flavor and
+                            nutrition, designed to fuel your day with vitality.
+                        </p>
+
+                        <Button
+                            className="bg-destructive text-white text-xl rounded-full px-8 py-6 font-bold hover:bg-destructive/90 w-48"
+                            onClick={() => navigate("/login")}
+                        >
+                            Get Started
+                        </Button>
+                    </div>
+
+                    <div className="w-1/2 flex items-center justify-center">
+                        <div className="relative w-[80%] h-[80%] rounded-2xl overflow-hidden shadow-xl">
+                            <div className="absolute inset-0 bg-primary/70">
+                                <img src={food_image} className="w-full h-full object-cover"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     )
