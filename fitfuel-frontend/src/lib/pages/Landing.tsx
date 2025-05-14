@@ -44,7 +44,7 @@ function Landing() {
                         </p>
 
                         <Button
-                            className="bg-destructive text-white text-xl rounded-full px-8 py-6 font-bold hover:bg-destructive/90 w-48"
+                            className="bg-destructive text-white text-xl rounded-full px-8 py-6 font-bold hover:bg-chart-4/90 w-48"
                             onClick={() => navigate("/login")}
                         >
                             Get Started
