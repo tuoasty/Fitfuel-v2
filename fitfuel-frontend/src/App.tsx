@@ -1,10 +1,15 @@
-import {Button} from "./components/ui/button.tsx";
+import {BrowserRouter, Route, Routes} from "react-router";
+import Landing from "./lib/pages/Landing.tsx";
 
 function App() {
   return (
-    <>
-      <Button className="bg-orange-500">Get Started</Button>
-    </>
+    <main>
+      <BrowserRouter>
+          <Routes>
+              <Route path="landing" element={<Landing/>}/>
+          </Routes>
+      </BrowserRouter>
+    </main>
   )
 }
 
