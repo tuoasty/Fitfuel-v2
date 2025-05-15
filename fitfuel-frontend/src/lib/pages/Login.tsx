@@ -1,4 +1,5 @@
 import { useForm} from "react-hook-form"
+import axios from "axios";
 
 type Inputs = {
     email: string
@@ -6,7 +7,7 @@ type Inputs = {
 }
 
 const onSubmit = async(data: Inputs) => {
-    console.log(data);
+    await axios.post("http://localhost:3000/auth/login", data).then(res => console.log(res));
 }
 
 export default function Login() {
