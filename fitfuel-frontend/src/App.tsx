@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from "react-router";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router";
 import Landing from "./lib/pages/Landing.tsx";
 import Login from "./lib/pages/Login.tsx";
 
@@ -7,6 +7,7 @@ function App() {
     <main className="w-full h-full">
       <BrowserRouter>
           <Routes>
+              <Route path="*" element={<Navigate to="landing" replace />}/>
               <Route path="landing" element={<Landing/>}/>
               <Route path="login" element={<Login/>}/>
           </Routes>
