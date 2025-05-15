@@ -1,18 +1,25 @@
 import {Injectable, UnauthorizedException} from '@nestjs/common';
 import {UsersService} from "../users/users.service";
 import { JwtService } from '@nestjs/jwt';
+import {Response} from "express";
 
 @Injectable()
 export class AuthService {
     constructor(private usersService: UsersService, private jwtService: JwtService) {}
-    async signIn(email:string, pass:string) :Promise<{access_token:string}>{
+    async signIn(email:string, pass:string, res:Response) :Promise<void>{
         const user = await this.usersService.findOne(email);
         if(user?.password !== pass){
             throw new UnauthorizedException();
         }
         const payload = {sub: user.id, email:user.email};
-        return {
-            access_token: await this.jwtService.signAsync(payload),
-        }
+        const token = await this.jwtService.signAsync(payload);
+        res.cookie("access_token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
+        res.status(200).send({message:"Login successful"})
     }
 }

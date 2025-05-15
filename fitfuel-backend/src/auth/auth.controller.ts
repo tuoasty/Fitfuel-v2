@@ -1,6 +1,7 @@
-import {Body, Controller, HttpCode, HttpStatus, Post} from '@nestjs/common';
+import {Body, Controller, HttpCode, HttpStatus, Post, Res} from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {IsEmail, IsNotEmpty} from "class-validator";
+import {Response} from "express";
 
 class SignInDto {
     @IsEmail()
@@ -16,7 +17,8 @@ export class AuthController {
 
     @HttpCode(HttpStatus.OK)
     @Post("login")
-    signIn(@Body() signInDto:SignInDto){
-        return this.authService.signIn(signInDto.email, signInDto.password);
+    signIn(@Body() signInDto:SignInDto,
+           @Res() res:Response){
+        return this.authService.signIn(signInDto.email, signInDto.password, res);
     }
 }
