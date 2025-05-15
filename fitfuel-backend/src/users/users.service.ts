@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import { Prisma } from "../../generated/prisma";
+import { Prisma } from "@prisma/client";
 import {PrismaService} from "../prisma/prisma.service";
 
 export type User = any;
@@ -15,10 +15,6 @@ export class UsersService {
             password:"kevin"
         },
     ];
-    async findOne(email:string): Promise<User|undefined> {
-        return this.users.find(user => user.email === email);
-    }
-
     async user(
         userWhereUniqueInput: Prisma.UserWhereUniqueInput,
     ): Promise<User|undefined> {
@@ -28,6 +24,8 @@ export class UsersService {
     }
 
     async createUser(data:Prisma.UserCreateInput):Promise<User> {
-        return this.prisma.user.create(data);
+        return this.prisma.user.create({
+            data
+        });
     }
 }

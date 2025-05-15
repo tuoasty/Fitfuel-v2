@@ -7,7 +7,7 @@ import {Response} from "express";
 export class AuthService {
     constructor(private usersService: UsersService, private jwtService: JwtService) {}
     async signIn(email:string, pass:string, res:Response) :Promise<void>{
-        const user = await this.usersService.findOne(email);
+        const user = await this.usersService.user({email:email})
         if(user?.password !== pass){
             throw new UnauthorizedException();
         }
