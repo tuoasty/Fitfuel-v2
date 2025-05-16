@@ -7,7 +7,7 @@ function Landing() {
     const navigate = useNavigate();
     return (
         <main className="relative w-full min-h-screen overflow-hidden bg-foreground text-background">
-            <img src={background} className="w-full h-full absolute z-10 opacity-15 object-cover"/>
+            <img alt="Background Image" src={background} className="w-full h-full absolute z-10 opacity-15 object-cover"/>
             <div className="relative z-10 flex flex-col md:flex-row justify-evenly w-full min-h-screen">
                 <div className="flex flex-col justify-center px-8 py-16 w-full md:hidden">
                     <h1 className="text-5xl font-bold text-white mb-8">FitFuel</h1>
@@ -54,7 +54,7 @@ function Landing() {
                     <div className="w-1/2 flex items-center justify-center">
                         <div className="relative w-[80%] h-[80%] rounded-2xl overflow-hidden shadow-xl">
                             <div className="absolute inset-0 bg-primary/70">
-                                <img src={food_image} className="w-full h-full object-cover"/>
+                                <img alt="Cover Image" src={food_image} className="w-full h-full object-cover"/>
                             </div>
                         </div>
                     </div>

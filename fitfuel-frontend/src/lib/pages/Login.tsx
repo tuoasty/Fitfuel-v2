@@ -6,8 +6,8 @@ import {Button} from "../../components/ui/button.tsx";
 import {Card, CardContent} from "../../components/ui/card.tsx";
 import {Mail, Lock} from "lucide-react"
 import {Input} from "../../components/ui/input.tsx";
-import { Notification, type NotificationType } from "../../components/ui/notification.tsx";
 import { useState } from "react";
+import {toast} from "sonner";
 
 type Inputs = {
     email: string
@@ -15,21 +15,14 @@ type Inputs = {
 }
 
 export default function Login() {
-    const [notification, setNotification] = useState<NotificationType>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const onSubmit = async (data: Inputs) => {
         setIsSubmitting(true);
-        setNotification(null);
-
         try {
             const response = await axios.post("http://localhost:3000/auth/login", data);
             if (response.data.success) {
-                setNotification({
-                    message: "Login successful! Redirecting...",
-                    type: 'success'
-                });
-                
+                toast.success("Login successful! Redirecting...");
                 setTimeout(() => {
                     window.location.href = '/home';
                 }, 2000);
@@ -37,12 +30,9 @@ export default function Login() {
         } catch (error) {
             let errorMessage = 'Login failed.';
             if(axios.isAxiosError(error)) {
-                errorMessage = error.response?.data?.message;
+                errorMessage = error.response?.data?.message || "Unable to connect to server";
             }
-            setNotification({
-                message: errorMessage,
-                type: 'error'
-            });
+            toast.error(errorMessage);
         } finally {
             setIsSubmitting(false);
         }
@@ -55,10 +45,10 @@ export default function Login() {
 
     return (
         <main className="relative w-full h-full overflow-hidden bg-background text-foreground flex flex-col justify-center items-center">
-            <img src={background || "/placeholder.svg"} className="w-full h-full absolute opacity-50 object-cover" />
+            <img alt="Background Image" src={background || "/placeholder.svg"} className="w-full h-full absolute opacity-50 object-cover" />
             <Card className="relative flex-row bg-background w-[75%] h-[75%] z-20 rounded-2xl shadow-lg overflow-hidden border-0 p-0 m-0">
                 <div className="relative w-[65%] hidden md:flex flex-col justify-center items-center bg-secondary text-secondary-foreground rounded-l-2xl shadow-lg p-0 m-0">
-                    <img src={image || "/placeholder.svg"} className="w-full h-full absolute opacity-25 object-cover" />
+                    <img alt="Cover Image" src={image || "/placeholder.svg"} className="w-full h-full absolute opacity-25 object-cover" />
                     <div className="relative z-10 text-center space-y-4 text-background">
                         <h1 className="font-bold tracking-tight">Welcome Back</h1>
                         <h4 className="opacity-90 max-w-md">We're excited to see you again. Log in to access your account and continue your journey.</h4>
@@ -106,9 +96,6 @@ export default function Login() {
                                 </div>
                             </div>
                         </div>
-                        
-                        <Notification notification={notification} />
-
                         <Button 
                             type="submit" 
                             className="w-full bg-destructive"

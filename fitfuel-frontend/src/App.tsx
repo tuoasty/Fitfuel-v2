@@ -3,21 +3,23 @@ import Landing from "./lib/pages/Landing.tsx";
 import Login from "./lib/pages/Login.tsx";
 import Register from "./lib/pages/Register.tsx";
 import Home from "./lib/pages/Home.tsx";
+import {Toaster} from "./components/ui/sonner.tsx";
 
 function App() {
-  return (
-    <main className="w-full h-full">
-      <BrowserRouter>
-          <Routes>
-              <Route path="*" element={<Navigate to="landing" replace />}/>
-              <Route path="landing" element={<Landing/>}/>
-              <Route path="login" element={<Login/>}/>
-              <Route path="register" element={<Register/>}/>
-              <Route path="home" element={<Home/>}/>
-          </Routes>
-      </BrowserRouter>
-    </main>
-  )
+    return (
+        <main className="w-full h-full">
+            <BrowserRouter>
+                <Routes>
+                    <Route path="*" element={<Navigate to="landing" replace/>}/>
+                    <Route path="landing" element={<Landing/>}/>
+                    <Route path="login" element={<Login/>}/>
+                    <Route path="register" element={<Register/>}/>
+                    <Route path="home" element={<Home/>}/>
+                </Routes>
+            </BrowserRouter>
+            <Toaster />
+        </main>
+    )
 }
 
 export default App
