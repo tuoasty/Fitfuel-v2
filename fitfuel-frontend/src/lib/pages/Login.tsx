@@ -86,7 +86,7 @@ export default function Login() {
 
                         <p className="text-center">
                             Don't have an account?{" "}
-                            <a href="#" className="hover:underline text-destructive">
+                            <a href="/register" className="hover:underline text-destructive">
                                 Sign up
                             </a>
                         </p>
@@ -146,7 +146,7 @@ export default function Login() {
 
                         <p className="text-center">
                             Don't have an account?{" "}
-                            <a href="#" className="hover:underline text-destructive">
+                            <a href="/register" className="hover:underline text-destructive">
                                 Sign up
                             </a>
                         </p>

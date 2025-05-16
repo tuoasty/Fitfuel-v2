@@ -1,6 +1,7 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router";
 import Landing from "./lib/pages/Landing.tsx";
 import Login from "./lib/pages/Login.tsx";
+import Register from "./lib/pages/Register.tsx";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
               <Route path="*" element={<Navigate to="landing" replace />}/>
               <Route path="landing" element={<Landing/>}/>
               <Route path="login" element={<Login/>}/>
+              <Route path="register" element={<Register/>}/>
           </Routes>
       </BrowserRouter>
     </main>
