@@ -35,7 +35,10 @@ export default function Login() {
                 }, 2000);
             }
         } catch (error) {
-            const errorMessage = error.response?.data?.message || 'Login failed.';
+            let errorMessage = 'Login failed.';
+            if(axios.isAxiosError(error)) {
+                errorMessage = error.response?.data?.message;
+            }
             setNotification({
                 message: errorMessage,
                 type: 'error'

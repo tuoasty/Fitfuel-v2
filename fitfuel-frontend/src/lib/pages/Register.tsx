@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form"
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import background from "../../assets/landing_background_2.png";
 import image from "../../assets/register_image_2.png";
 import {Button} from "../../components/ui/button.tsx";
@@ -37,8 +37,11 @@ export default function Register(){
                     window.location.href = '/login';
                 }, 2000);
             }
-        } catch (error) {
-            const errorMessage = error.response?.data?.message || 'Register failed.';
+        } catch (error:unknown | AxiosError) {
+            let errorMessage = 'Register failed.';
+            if(axios.isAxiosError(error)) {
+                errorMessage = error.response?.data?.message;
+            }
             setNotification({
                 message: errorMessage,
                 type: 'error'
