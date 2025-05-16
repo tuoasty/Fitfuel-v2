@@ -1,7 +1,7 @@
 import {useForm} from "react-hook-form"
 import axios, {AxiosError} from "axios";
 import background from "../../assets/landing_background_2.png";
-import image from "../../assets/register_image_2.png";
+import image from "../../assets/register_image_3.png";
 import {Button} from "../../components/ui/button.tsx";
 import {Card, CardContent} from "../../components/ui/card.tsx";
 import {Mail, Lock, UserRoundPen, Phone} from "lucide-react"
