@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {Injectable, UnauthorizedException} from '@nestjs/common';
+import {Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
 import {UsersService} from "../users/users.service";
 import { JwtService } from '@nestjs/jwt';
 import {Response} from "express";
@@ -9,8 +9,12 @@ export class AuthService {
     constructor(private usersService: UsersService, private jwtService: JwtService) {}
     async signIn(email:string, pass:string, res:Response) :Promise<void>{
         const user = await this.usersService.user({email:email})
+        if(!user){
+            throw new NotFoundException("User with email " + email + " not found")
+        }
+
         if(user?.password !== pass){
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("Wrong credentials");
         }
         const payload = {sub: user.id, email:user.email};
         const token = await this.jwtService.signAsync(payload);

@@ -6,30 +6,50 @@ import {Button} from "../../components/ui/button.tsx";
 import {Card, CardContent} from "../../components/ui/card.tsx";
 import {Mail, Lock} from "lucide-react"
 import {Input} from "../../components/ui/input.tsx";
+import { Notification, type NotificationType } from "../../components/ui/notification.tsx";
+import { useState } from "react";
 
 type Inputs = {
     email: string
     password: string
 }
 
-const onSubmit = async (data: Inputs) => {
-    console.log(data)
-    try {
-        const response = await axios.post("http://localhost:3000/auth/login", data);
-        if (response.data.success) {
-            window.location.href = '/home';
-        }
-    } catch (error) {
-        console.error('Login error:', error);
-    }
-}
-
 export default function Login() {
+    const [notification, setNotification] = useState<NotificationType>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const onSubmit = async (data: Inputs) => {
+        setIsSubmitting(true);
+        setNotification(null);
+
+        try {
+            const response = await axios.post("http://localhost:3000/auth/login", data);
+            if (response.data.success) {
+                setNotification({
+                    message: "Login successful! Redirecting...",
+                    type: 'success'
+                });
+                
+                setTimeout(() => {
+                    window.location.href = '/home';
+                }, 2000);
+            }
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 'Login failed.';
+            setNotification({
+                message: errorMessage,
+                type: 'error'
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
+
     const {
         register,
         handleSubmit,
-        formState: {errors},
     } = useForm<Inputs>();
+
     return (
         <main className="relative w-full h-full overflow-hidden bg-background text-foreground flex flex-col justify-center items-center">
             <img src={background || "/placeholder.svg"} className="w-full h-full absolute opacity-50 object-cover" />
@@ -82,14 +102,16 @@ export default function Login() {
                                     </div>
                                 </div>
                             </div>
-
-                            {(errors.email || errors.password) && (
-                                <p className="text-destructive text-sm mt-2 text-center">All fields must be filled</p>
-                            )}
                         </div>
+                        
+                        <Notification notification={notification} />
 
-                        <Button type="submit" className="w-full bg-destructive">
-                            Sign In
+                        <Button 
+                            type="submit" 
+                            className="w-full bg-destructive"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? "Signing in..." : "Sign In"}
                         </Button>
 
                         <p className="text-center">

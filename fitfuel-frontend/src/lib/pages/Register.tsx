@@ -6,6 +6,8 @@ import {Button} from "../../components/ui/button.tsx";
 import {Card, CardContent} from "../../components/ui/card.tsx";
 import {Mail, Lock, UserRoundPen, Phone} from "lucide-react"
 import {Input} from "../../components/ui/input.tsx";
+import { useState } from "react";
+import { Notification, type NotificationType } from "../../components/ui/notification.tsx";
 
 type Inputs = {
     first_name: string
@@ -15,23 +17,40 @@ type Inputs = {
     password: string
 }
 
-const onSubmit = async (data: Inputs) => {
-    console.log(data)
-    try {
-        const response = await axios.post("http://localhost:3000/auth/register", data);
-        if (response.data.success) {
-            window.location.href = '/login';
-        }
-    } catch (error) {
-        console.error('Registration error:', error);
-    }
-}
-
 export default function Register(){
+    const [notification, setNotification] = useState<NotificationType>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const onSubmit = async (data: Inputs) => {
+        setIsSubmitting(true);
+        setNotification(null);
+
+        try {
+            const response = await axios.post("http://localhost:3000/auth/register", data);
+            if (response.data.success) {
+                setNotification({
+                    message: "Register successful! Redirecting...",
+                    type: 'success'
+                });
+                
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+            }
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 'Register failed.';
+            setNotification({
+                message: errorMessage,
+                type: 'error'
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
+
     const {
             register,
             handleSubmit,
-            formState: {errors},
         } = useForm<Inputs>();
     return (
         <main className="relative w-full h-full overflow-hidden bg-background text-foreground flex flex-col justify-center items-center">
@@ -130,16 +149,16 @@ export default function Register(){
                                     </div>
                                 </div>
                             </div>
-
-                            {Object.keys(errors).length > 0 && (
-                                <p className="text-destructive text-sm mt-2 text-center">
-                                    Please fill all fields correctly
-                                </p>
-                            )}
                         </div>
 
-                        <Button type="submit" className="w-full bg-destructive">
-                            Sign Up
+                        <Notification notification={notification} />
+
+                        <Button 
+                            type="submit" 
+                            className="w-full bg-destructive"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? "Registering..." : "Sign Up"}
                         </Button>
 
                         <p className="text-center">
