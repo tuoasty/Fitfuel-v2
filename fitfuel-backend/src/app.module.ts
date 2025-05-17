@@ -6,9 +6,11 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import {APP_GUARD} from "@nestjs/core";
 import {AuthGuard} from "./auth/auth.guard";
+import { ProfileService } from './profile/profile.service';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
-  imports: [AuthModule, UsersModule],
+  imports: [AuthModule, UsersModule, ProfileModule],
   controllers: [AppController],
   providers: [AppService, {
     provide: APP_GUARD,

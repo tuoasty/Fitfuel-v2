@@ -19,4 +19,30 @@ model User {
   name String
   password String
   phone_number String
+  profile Profile?
+}
+
+enum DietPreference {
+  GENERAL
+  VEGAN
+  VEGETARIAN
+}
+
+enum ActivityLevel {
+  SEDENTARY
+  LIGHT
+  MODERATE
+  VERY
+  EXTRA
+}
+
+model Profile {
+  id String @id @default(uuid())
+  user User @relation(fields:[userId], references: [id])
+  userId String @unique
+  weight Float
+  height Float
+  dateOfBirth DateTime
+  dietPreference DietPreference @default(GENERAL)
+  activityLevel ActivityLevel @default(MODERATE)
 }
