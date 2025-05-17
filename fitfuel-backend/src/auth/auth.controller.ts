@@ -56,4 +56,12 @@ export class AuthController {
             res
         );
     }
+
+    @HttpCode(HttpStatus.OK)
+    @Post("logout")
+    async logout(@Res() res:Response){
+        res.clearCookie("access_token");
+        return res.status(200).send({message:"Logout successful", success:true});
+    }
+
 }
