@@ -237,8 +237,8 @@ export default function Home() {
                   </div>
                 </CarouselItem>
               </CarouselContent>
-              <CarouselPrevious className="-left-9 bg-background/80 hover:bg-background" />
-              <CarouselNext className="-right-9 bg-background/80 hover:bg-background" />
+              <CarouselPrevious className="-left-9 bg-background/80" variant="destructive" />
+              <CarouselNext className="-right-9 bg-background/80" variant="destructive" />
             </Carousel>
           </div>
         </Card>
@@ -262,27 +262,31 @@ export default function Home() {
         
         {/* Contact Us */}
         <Card className="bg-primary text-background p-4 rounded-lg">
-          <div className="flex flex-row justify-between gap-8">
-            <CardContent className="flex-1">
-              <h4 className="font-bold mb-3">Contact Us</h4>
-              <p className="text-sm mb-2">FitFuel@email.com</p>
-              <p className="text-sm mb-2">Jl. Raya Kb. Jeruk No. 27, Kemanggisan, Jakarta Barat</p>
-              <p className="text-sm">+62 804 - 169 - 6969</p>
-            </CardContent>
+            <div className="relative">
+                <div className="absolute top-0 right-0 p-4">
+                <h2 className="font-bold text-xl">FitFuel</h2>
+                </div>
+                <div className="flex flex-row justify-between gap-8 mt-12">
+                <CardContent className="flex-1">
+                    <h4 className="font-bold mb-3">Contact Us</h4>
+                    <p className="text-sm mb-2">FitFuel@email.com</p>
+                    <p className="text-sm mb-2">Jl. Raya Kb. Jeruk No. 27, Kemanggisan, Jakarta Barat</p>
+                    <p className="text-sm">+62 804 - 169 - 6969</p>
+                </CardContent>
 
-            <CardContent className="flex-1">
-              <h2 className="font-bold mb-3">FitFuel</h2>
-              <p className="mb-2">Enter your email to subscribe</p>
-              <div className="flex">
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  className="rounded-r-none bg-background text-primary text-sm h-9"
-                />
-                <Button className="rounded-l-none bg-[#f25c05] text-sm h-9 px-3">Subscribe</Button>
-              </div>
-            </CardContent>
-          </div>
+                <CardContent className="flex-1">
+                    <p className="mb-2">Enter your email to subscribe</p>
+                    <div className="flex">
+                    <Input
+                        type="email"
+                        placeholder="Email"
+                        className="rounded-r-none bg-background text-primary text-sm h-9"
+                    />
+                    <Button className="rounded-l-none bg-[#f25c05] text-sm h-9 px-3">Subscribe</Button>
+                    </div>
+                </CardContent>
+                </div>
+            </div>
         </Card>
       </div>
     </main>
