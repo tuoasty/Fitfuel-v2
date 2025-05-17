@@ -15,7 +15,7 @@ const getBMICategory = (bmi: number) => {
 
 export function BMIGauge({ bmi, size }: BMIGaugeProps) {
   return (
-    <div style={{ width: size, height: size/2 }}>
+    <div style={{ width: size, height: size  /2 }}>
       <GaugeComponent
         style={{ width: '100%', height: '100%' }}
         type="semicircle"
@@ -88,6 +88,8 @@ export function BMIGauge({ bmi, size }: BMIGaugeProps) {
               formatTextValue: (bmiIndex: number) => bmiIndex.toString(),
               style: { fontSize: 10 }
             },
+            defaultTickLineConfig: {
+            },
             hideMinMax: true,
           }
         }}
@@ -95,7 +97,7 @@ export function BMIGauge({ bmi, size }: BMIGaugeProps) {
         minValue={15}
         maxValue={40}
       />
-      <div className="text-center mt-2">
+      <div className="text-center">
         <span className="text-sm font-medium">{getBMICategory(bmi)}</span>
       </div>
     </div>
