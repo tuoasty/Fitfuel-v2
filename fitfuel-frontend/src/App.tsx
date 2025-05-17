@@ -4,7 +4,8 @@ import Login from "./lib/pages/Login.tsx";
 import Register from "./lib/pages/Register.tsx";
 import Home from "./lib/pages/Home.tsx";
 import {Toaster} from "./components/ui/sonner.tsx";
-import {AuthProvider, LoginRoute, ProtectedRoute} from "./auth/AuthenticationContext.tsx";
+import {AuthProvider, LoginRoute, ProtectedRoute, RequireAuthorization} from "./auth/AuthenticationContext.tsx";
+import CompleteProfile from "./lib/pages/CompleteProfile.tsx";
 
 function App() {
     return (
@@ -13,10 +14,20 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path="*" element={<Navigate to="landing" replace/>}/>
-                        <Route path="landing" element={<LoginRoute><Landing/></LoginRoute>}/>
-                        <Route path="login" element={<LoginRoute><Login/></LoginRoute>}/>
-                        <Route path="register" element={<LoginRoute><Register/></LoginRoute>}/>
-                        <Route path="home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+                        {/*Login Routes*/}
+                        <Route element={<LoginRoute/>}>
+                            <Route path="landing" element={<Landing/>}/>
+                            <Route path="login" element={<Login/>}/>
+                            <Route path="register" element={<Register/>}/>
+                        </Route>
+                        {/*Complete Profile Route*/}
+                        <Route element={<RequireAuthorization/>}>
+                            <Route path="complete-profile" element={<CompleteProfile/>}/>
+                        </Route>
+                        {/*Protected Routes*/}
+                        <Route element={<ProtectedRoute/>}>
+                            <Route path="home" element={<Home/>}/>
+                        </Route>
                     </Routes>
                 </BrowserRouter>
             </AuthProvider>

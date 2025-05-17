@@ -14,9 +14,9 @@ export class ProfileController {
         let user:User = req["user"]
         let profile =await this.profileService.profile({userId:user.id})
         if(!profile){
-            return res.status(HttpStatus.NOT_FOUND).send({message:"No profile found"})
+            return res.status(HttpStatus.NOT_FOUND).send({message:"Please fill out your information first!"})
         } else {
-            return res.status(HttpStatus.OK).send({message:"Profile"});
+            return res.status(HttpStatus.OK).send({message:"Success"});
         }
     }
 }
