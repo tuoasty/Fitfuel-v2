@@ -58,9 +58,14 @@ export class AuthController {
     }
 
     @HttpCode(HttpStatus.OK)
+    @Public()
     @Post("logout")
     async logout(@Res() res:Response){
-        res.clearCookie("access_token");
+        res.clearCookie("access_token", {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax"
+        });
         return res.status(200).send({message:"Logout successful", success:true});
     }
 

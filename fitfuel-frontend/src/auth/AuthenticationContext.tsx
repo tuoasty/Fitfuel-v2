@@ -18,6 +18,7 @@ export const AuthProvider = ({children} : {children: React.ReactNode}) => {
     const verifyLogin = async ():Promise<boolean> => {
         try {
             const response = await API.get("/users/me");
+            console.log(response);
             if (response.status === 200) {
                 setUser(response.data.user)
                 return true
