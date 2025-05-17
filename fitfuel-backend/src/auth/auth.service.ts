@@ -16,7 +16,7 @@ export class AuthService {
         if(user?.password !== pass){
             throw new UnauthorizedException("Wrong credentials");
         }
-        const payload = {id: user.id, name:user.name ,email:user.email};
+        const payload = {id: user.id, name:user.name ,email:user.email, phoneNumber:user.phone_number};
         const token = await this.jwtService.signAsync(payload);
         res.cookie("access_token", token, {
             httpOnly: true,
