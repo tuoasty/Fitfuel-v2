@@ -9,13 +9,6 @@ export type User = any;
 export class UsersService {
     constructor(private prisma:PrismaService){}
 
-    private readonly users = [
-        {
-            id: 1,
-            email: "kevin@gmail.com",
-            password:"kevin"
-        },
-    ];
     async user(
         userWhereUniqueInput: Prisma.UserWhereUniqueInput,
     ): Promise<User|undefined> {

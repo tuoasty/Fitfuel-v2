@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {Body, Controller, HttpCode, HttpStatus, Post, Res} from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, HttpStatus, Post, Res} from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {IsEmail, IsNotEmpty, IsPhoneNumber} from "class-validator";
 import {Response} from "express";
