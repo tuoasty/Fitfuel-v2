@@ -53,6 +53,33 @@ export const UseAuth = () => {
     return context;
 }
 
+export const LoginRoute = ({children}:{children:React.ReactNode}) => {
+    const {verifyLogin} = UseAuth();
+    const navigate = useNavigate();
+    const [authorized, setAuthorized] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const checkLogin = async () => {
+            const isLoggedIn = await verifyLogin();
+            if(isLoggedIn) {
+                navigate("/home", {replace:true});
+                return
+            } else {
+                setAuthorized(true);
+            }
+        }
+        checkLogin().finally(() => setLoading(false));
+    }, []);
+
+    if(loading) {
+        return <h1>Loading...</h1>
+    }
+    if(authorized){
+        return <>{children}</>
+    }
+}
+
 export const ProtectedRoute = ({children}:{children:React.ReactNode}) => {
     const {user, verifyLogin} = UseAuth();
     const navigate = useNavigate();
