@@ -1,57 +1,68 @@
 import { useState } from "react"
-import { Menu, X, ChevronDown, ChevronUp } from "lucide-react"
+import { Menu, X, ChevronDown } from "lucide-react"
 import {Button} from "../../components/ui/button.tsx";
-import {Card} from "../../components/ui/card.tsx";
+import {Card, CardContent} from "../../components/ui/card.tsx";
 import {Input} from "../../components/ui/input.tsx";
-import {BMIGauge} from "../../components/ui/bmi-gauge.tsx";
+import {BMIGauge} from "../../components/bmi-gauge.tsx";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../../components/ui/accordion.tsx"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "../../components/ui/carousel.tsx"
 import profile from "../../assets/profile.png"
 import recipe from "../../assets/register_image_2.png"
 import article1 from "../../assets/register_image_3.png"
 import article2 from "../../assets/landing_background_2.png";
+import article3 from "../../assets/landing_image.png"
+import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar.tsx";
+import { useNavigate } from "react-router";
 
-export default function Home() {
+export default function Home() {  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [expandedFaq, setExpandedFaq] = useState<string | null>("item-1")
+  const navigate = useNavigate()
   const userName = "Kepintil"
   const currentBMI = 33
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
   }
-
-  const toggleFaq = (id: string) => {
-    setExpandedFaq(expandedFaq === id ? null : id)
-  }
-
   const faqItems = [
     {
       id: "item-1",
       question: "Can I track my progress?",
       answer:
-        "Yes! FitFuel allows you to log your meals, track your calorie intake, and monitor your progress over time. You can also set goals and receive personalized recommendations.",
+        "Yes! FitFuel allows you to log your meals, monitor calorie intake, track weight changes, and visualize progress over time.",
     },
     {
       id: "item-2",
       question: "How do I contact FitFuel support?",
-      answer: "You can reach us through our help center in the app or email us at support@fitfuel.com.",
+      answer: "You can reach us through the Help section in the app or email us aat support@fitfuelapp.com.",
     },
     {
       id: "item-3",
       question: "What is FitFuel?",
       answer:
-        "FitFuel is a comprehensive nutrition and fitness app designed to help you achieve your health goals through personalized meal plans, recipes, and fitness tracking.",
+        "FitFuel is a smart meal planner application that creates personalized meal plans based on your BMI, dietary goals, and lifestyle preferences.",
     },
     {
       id: "item-4",
       question: "How does FitFuel use my BMI?",
       answer:
-        "FitFuel uses your BMI as a starting point to create a personalized nutrition plan. We combine this with your goals, preferences, and activity level to provide tailored recommendations.",
+        "FitFuel uses your Body Mass Index (BMI) to determine your health. This helps guide the app in recommending a calorie-appropriate and nutrient-balanced meal plan tailored to your needs.",
     },
     {
       id: "item-5",
       question: "What kind of meal plans does FitFuel provide?",
       answer:
-        "FitFuel offers a variety of meal plans including keto, vegetarian, vegan, paleo, and balanced nutrition options. All plans can be customized to your preferences and dietary restrictions.",
+        "FitFuel offers: Calorie-specific daily meal plans, Macronutrient-balanced recipes, Wellness article.",
     },
   ]
 
@@ -60,18 +71,30 @@ export default function Home() {
       id: 1,
       title: "What are the benefits of eating healthy?",
       image: article1,
+      link: "articles/"
     },
     {
       id: 2,
       title: 'Parkinson\'s disease prevention may begin "at the dinner table"',
       image: article2,
     },
+    {
+      id: 3,
+      title: 'The 7 Best Weight Loss Meal Plans for Women',
+      image: article3,
+    },
   ]
+
+  const recipeOfTheDay = {
+    title: "Quinoa Salad",
+    image: recipe,
+    description: "Curious about other healthy recipes?",
+  }
 
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white p-4 flex justify-between items-center">
+      <header className="sticky top-0 z-50 bg-background p-4 flex justify-between items-center">
         <h1 className="text-xl font-bold text-primary">FitFuel</h1>
         <button onClick={toggleSidebar} className="p-1">
           <Menu className="h-6 w-6 text-primary" />
@@ -81,7 +104,7 @@ export default function Home() {
       {/* Sidebar */}
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50">
-          <div className="fixed right-0 top-0 h-full w-64 bg-gradient-to-b from-[#2d6a4f] to-[#1b4332] text-white p-6 transform transition-transform duration-300">
+          <div className="fixed right-0 top-0 h-full w-64 bg-gradient-to-b from-[#2d6a4f] to-[#1b4332] text-background p-6 transform transition-transform duration-300">
             <div className="flex justify-between items-center mb-10">
               <h2 className="text-xl font-bold">FitFuel</h2>
               <button onClick={toggleSidebar}>
@@ -89,7 +112,7 @@ export default function Home() {
               </button>
             </div>
 
-            <nav className="space-y-6">
+            <nav className="space-y-6 flex flex-col">
               <a href="/home" className="hover:underline text-destructive">
                 Home
               </a>
@@ -102,13 +125,20 @@ export default function Home() {
             </nav>
 
             <div className="absolute bottom-32 left-0 right-0 flex flex-col items-center">
-              <div className="relative w-12 h-12 rounded-full overflow-hidden mb-2 border-2 border-white">
-                <img src={profile} alt="Profile picture" className="object-cover" />
-              </div>
-              <div className="flex items-center">
-                <span className="font-medium">{userName}</span>
-                <ChevronDown className="h-4 w-4 ml-1" />
-              </div>
+                <div className="relative w-12 h-12 rounded-full overflow-hidden mb-2 border-2 border-background">
+                    <Avatar className="h-full w-full">
+                    <AvatarImage 
+                        src={profile} 
+                        alt="Profile picture"
+                        className="h-full w-full object-cover"
+                    />
+                    <AvatarFallback>profile image</AvatarFallback>
+                    </Avatar>
+                </div>
+                <div className="flex items-center">
+                    <span className="font-medium">{userName}</span>
+                    <ChevronDown className="h-4 w-4 ml-1" />
+                </div>
             </div>
           </div>
         </div>
@@ -138,104 +168,122 @@ export default function Home() {
         </Card>
 
         {/* Recipe of the day */}
-        <div className="mb-6">
+        <Card className="mb-6 bg-accent">
           <div className="relative overflow-hidden rounded-lg">
-            <div className="absolute top-0 left-0 bg-[#2d6a4f] text-white px-3 py-1 rounded-br-lg z-10 text-sm">
+            <div className="absolute top-0 right-0 bg-[#2d6a4f] text-background px-3 py-1 rounded-bl-lg z-10 text-sm">
               Recipe of the day!
-            </div>
-            <div className="flex flex-row h-32">
+            </div>            <div className="flex flex-row h-32">
               <div className="relative w-1/3">
-                <img src={recipe} alt="Quinoa Salad" className="object-cover" />
+                <img src={recipeOfTheDay.image} alt="recipe photo" className="object-cover h-full w-full" />
               </div>
-              <div className="w-2/3 p-3 bg-[#95d5b2] text-primary flex flex-col justify-between">
-                <h3 className="font-bold text-lg">Quinoa Salad</h3>
-                <p className="text-xs">Curious about other healthy recipes?</p>
-                <Button
-                  variant="outline"
+              <div className="w-2/3 p-3 text-primary flex flex-col">
+                <h3 className="font-bold text-lg mb-2">{recipeOfTheDay.title}</h3>
+                <p className="text-xs mb-2">Curious about other healthy recipes?</p>
+                <Button 
+                  variant="outline" 
                   size="sm"
-                  className="self-end bg-white text-primary hover:bg-gray-100 text-xs py-1 h-auto"
+                  className="self-end text-primary border-primary hover:bg-primary/10 text-xs"
+                  onClick={() => navigate('/recipes')}
                 >
                   See more!
                 </Button>
               </div>
             </div>
           </div>
-        </div>
-
+        </Card>        
+        
         {/* Newest Articles */}
-        <div className="mb-6">
-          <h3 className="font-bold text-lg mb-3">Newest Articles</h3>
-          <div className="grid grid-cols-2 gap-4">
-            {articles.map((article) => (
-              <div key={article.id} className="bg-white rounded-lg overflow-hidden shadow-sm">
-                <div className="relative h-24">
-                  <img src={article.image} alt={article.title} className="object-cover" />
-                </div>
-                <div className="p-2 relative">
-                  <p className="text-xs font-medium">{article.title}</p>
-                  <div className="absolute bottom-2 right-2 bg-white p-1 rounded-full shadow-sm">
-                    <div className="bg-primary text-white w-5 h-5 flex items-center justify-center rounded-full text-[8px]">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+        <Card className="mb-6 bg-secondary-foreground p-6">
+          <h3 className="font-bold text-white mb-6 text-xxl">Newest Articles</h3>
+          <div className="relative px-5">
+            <Carousel className="w-full">
+              <CarouselContent className="-ml-4">
+                {articles.map((article) => (
+                  <CarouselItem key={article.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                    <div className="bg-background rounded-lg overflow-hidden shadow-sm h-full">
+                      <div className="relative h-64">
+                        <img 
+                          src={article.image} 
+                          alt={article.title} 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-6">
+                        <p className="text-sm font-medium mb-4 line-clamp-2">{article.title}</p>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="w-full text-xs hover:bg-secondary-foreground/10"
+                        >
+                          Read More
+                        </Button>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+                <CarouselItem className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="bg-background rounded-lg overflow-hidden shadow-sm h-full flex items-center justify-center">
+                    <div className="p-6 text-center">
+                      <h4 className="font-semibold text-lg mb-4">Want to see more articles?</h4>
+                      <Button 
+                        variant="outline" 
+                        size="lg"
+                        className="text-primary border-primary hover:bg-primary/10"
+                        onClick={() => navigate('/articles')}
                       >
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                      </svg>
+                        View All Articles
+                      </Button>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                </CarouselItem>
+              </CarouselContent>
+              <CarouselPrevious className="-left-9 bg-background/80 hover:bg-background" />
+              <CarouselNext className="-right-9 bg-background/80 hover:bg-background" />
+            </Carousel>
           </div>
-        </div>
-
+        </Card>
+          
         {/* FAQ */}
         <div className="mb-6">
-          <h3 className="font-bold text-lg mb-3">FAQ</h3>
-          <div className="space-y-2">
+          <h3 className="font-bold text-xxl mb-3 text-center">FAQ</h3>
+          <Accordion type="single" collapsible className="w-full">
             {faqItems.map((item) => (
-              <div key={item.id} className="border border-gray-200 rounded-md overflow-hidden">
-                <button
-                  className="w-full flex justify-between items-center p-3 text-left bg-white"
-                  onClick={() => toggleFaq(item.id)}
-                >
-                  <span className="text-sm font-medium">{item.question}</span>
-                  {expandedFaq === item.id ? (
-                    <ChevronUp className="h-4 w-4 text-gray-500" />
-                  ) : (
-                    <ChevronDown className="h-4 w-4 text-gray-500" />
-                  )}
-                </button>
-                {expandedFaq === item.id && <div className="p-3 bg-gray-50 text-xs">{item.answer}</div>}
-              </div>
+              <AccordionItem key={item.id} value={item.id}>
+                <AccordionTrigger className="text-primary">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-secondary">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
-        </div>
-
+          </Accordion>
+        </div>        
+        
         {/* Contact Us */}
-        <div className="bg-[#2d6a4f] text-white p-4 rounded-lg">
-          <h3 className="font-bold text-lg mb-3">Contact Us</h3>
-          <p className="text-sm mb-2">FitFuel@email.com</p>
-          <p className="text-sm mb-2">123 Nutrition St., Health City</p>
-          <p className="text-sm mb-4">+00 123 456 7890</p>
+        <Card className="bg-primary text-background p-4 rounded-lg">
+          <div className="flex flex-row justify-between gap-8">
+            <CardContent className="flex-1">
+              <h4 className="font-bold mb-3">Contact Us</h4>
+              <p className="text-sm mb-2">FitFuel@email.com</p>
+              <p className="text-sm mb-2">Jl. Raya Kb. Jeruk No. 27, Kemanggisan, Jakarta Barat</p>
+              <p className="text-sm">+62 804 - 169 - 6969</p>
+            </CardContent>
 
-          <div className="flex">
-            <Input
-              type="email"
-              placeholder="Enter your email"
-              className="rounded-r-none bg-white text-primary text-sm h-9"
-            />
-            <Button className="rounded-l-none bg-[#f25c05] text-sm h-9 px-3">Subscribe</Button>
+            <CardContent className="flex-1">
+              <h2 className="font-bold mb-3">FitFuel</h2>
+              <p className="mb-2">Enter your email to subscribe</p>
+              <div className="flex">
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  className="rounded-r-none bg-background text-primary text-sm h-9"
+                />
+                <Button className="rounded-l-none bg-[#f25c05] text-sm h-9 px-3">Subscribe</Button>
+              </div>
+            </CardContent>
           </div>
-        </div>
+        </Card>
       </div>
     </main>
   )
