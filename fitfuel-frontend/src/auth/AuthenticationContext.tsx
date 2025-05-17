@@ -62,7 +62,7 @@ export const ProtectedRoute = ({children}:{children:React.ReactNode}) => {
     useEffect(() => {
         const checkLogin = async () => {
             const isLoggedIn = await verifyLogin();
-            if(!isLoggedIn || !user) {
+            if(!isLoggedIn && !user) {
                 navigate("/landing", {replace:true});
                 return
             } else {

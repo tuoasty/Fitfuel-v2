@@ -8,7 +8,6 @@ import {Mail, Lock} from "lucide-react"
 import {Input} from "../../components/ui/input.tsx";
 import { useState } from "react";
 import {toast} from "sonner";
-import API from "../../utils/API.ts";
 
 type Inputs = {
     email: string
@@ -17,13 +16,6 @@ type Inputs = {
 
 export default function Login() {
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const logout = async () => {
-        const response = await axios.post("http://localhost:3000/auth/logout");
-        console.log(response);
-        console.log(response.data.message);
-    }
-
     const onSubmit = async (data: Inputs) => {
         setIsSubmitting(true);
         try {
