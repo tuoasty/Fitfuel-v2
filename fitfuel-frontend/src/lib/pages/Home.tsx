@@ -24,11 +24,12 @@ import article2 from "../../assets/landing_background_2.png";
 import article3 from "../../assets/landing_image.png"
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar.tsx";
 import { useNavigate } from "react-router";
+import {UseAuth} from "../../auth/AuthenticationContext.tsx";
 
 export default function Home() {  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const {user} = UseAuth();
   const navigate = useNavigate()
-  const userName = "Kepintil"
   const currentBMI = 33
 
   const toggleSidebar = () => {
@@ -136,7 +137,7 @@ export default function Home() {
                     </Avatar>
                 </div>
                 <div className="flex items-center">
-                    <span className="font-medium">{userName}</span>
+                    <span className="font-medium">{user?.name}</span>
                     <ChevronDown className="h-4 w-4 ml-1" />
                 </div>
             </div>
@@ -148,7 +149,7 @@ export default function Home() {
         {/* Greeting */}
         <div className="mt-4 mb-6">
           <h2 className="text-lg font-medium">
-            Good morning, <span className="text-[#95d5b2]">{userName}!</span>
+            Good morning, <span className="text-[#95d5b2]">{user?.name}!</span>
           </h2>
         </div>
 
