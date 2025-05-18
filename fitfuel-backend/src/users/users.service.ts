@@ -22,4 +22,16 @@ export class UsersService {
             data
         });
     }
+
+    async updateUser(params: {
+        where: Prisma.UserWhereUniqueInput,
+        data: Prisma.UserUpdateInput;
+    }): Promise<User> {
+        const {data, where} = params;
+        console.log(where);
+        return this.prisma.user.update({
+            data,
+            where,
+        })
+    }
 }
