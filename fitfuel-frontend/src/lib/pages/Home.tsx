@@ -1,4 +1,4 @@
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import { Menu, X, ChevronDown } from "lucide-react"
 import {Button} from "../../components/ui/button.tsx";
 import {Card} from "../../components/ui/card.tsx";
@@ -16,7 +16,6 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "../../components/ui/carousel.tsx"
-import profile from "../../assets/profile.png"
 import recipe from "../../assets/register_image_2.png"
 import article1 from "../../assets/register_image_3.png"
 import article2 from "../../assets/landing_background_2.png";
@@ -25,12 +24,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar.
 import { useNavigate } from "react-router";
 import {UseAuth} from "../../auth/AuthenticationContext.tsx";
 import { Footer } from "../../components/footer.tsx";
+import type {Profile} from "../../type/profile.ts";
+import API from "../../utils/API.ts";
 
 export default function Home() {  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const {user, logout} = UseAuth();
+  const [profile, setProfile] = useState<Profile | null>(null);
   const navigate = useNavigate()
-  const currentBMI = 33
+  const [bmi, setBmi] = useState(10);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
@@ -92,6 +94,21 @@ export default function Home() {
     description: "Curious about other healthy recipes?",
   }
 
+  const getProfile = async() => {
+    const response = await API.get("/profile/me");
+    if (response.status === 200) {
+      setProfile(response.data.profile);
+      setBmi(parseFloat(response.data.profile.weight) / Math.pow(parseFloat(response.data.profile.height), 2))
+    }
+  }
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  useEffect(() => {
+  }, [profile]);
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Header */}
@@ -132,7 +149,7 @@ export default function Home() {
                 <div className="relative w-12 h-12 rounded-full overflow-hidden mb-2 border-2 border-background">
                     <Avatar className="h-full w-full">
                     <AvatarImage 
-                        src={profile} 
+                        src="profile-picture/bbad49fe-231a-4b79-b2ad-d93533bcc9dd/9lskx5.jpg"
                         alt="Profile picture"
                         className="h-full w-full object-cover"
                     />
@@ -160,7 +177,7 @@ export default function Home() {
         <Card className="p-4 mb-6 shadow-sm">
           <div className="relative">
             <div className="flex justify-center mb-10">              
-                <BMIGauge bmi={currentBMI} size={500}/>
+                <BMIGauge bmi={bmi} size={500}/>
             </div>
             <h3 className="text-center text-sm font-medium">Your BMI today!</h3>
             <div className="flex justify-center mt-2">

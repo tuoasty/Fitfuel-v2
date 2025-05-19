@@ -16,8 +16,8 @@ export class SupabaseService {
         if (error != null) {
             console.log(error)
             return null
-        } else {
-            return data.fullPath;
         }
+        const {data:publicUrlData} = this.supabase.storage.from(bucketName).getPublicUrl(fileName)
+        return publicUrlData?.publicUrl ?? null;
     }
 }
