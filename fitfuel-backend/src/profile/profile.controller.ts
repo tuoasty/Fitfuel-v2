@@ -1,15 +1,28 @@
-import {Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Post,
+    Req,
+    Res,
+    UploadedFile,
+    UseInterceptors
+} from '@nestjs/common';
 import {ProfileService} from "./profile.service";
 import {ActivityLevel, DietPreference, User} from "@prisma/client";
 import {Response} from "express";
-import {IsDate, IsDecimal, IsEnum, IsIn, IsNotEmpty, IsNumber} from "class-validator";
+import {IsDate, IsDecimal, IsEnum, IsNumber} from "class-validator";
 import {Transform, Type} from "class-transformer";
+import {FileInterceptor} from "@nestjs/platform-express";
+import {SupabaseService} from "../supabase/supabase.service";
 
 class CompleteProfileDto {
-    @IsNumber()
-    weight: number;
-    @IsNumber()
-    height: number;
+    @IsDecimal()
+    weight: string;
+    @IsDecimal()
+    height: string;
     @Type(() => Date)
     @IsDate()
     dateOfBirth: Date;
@@ -23,7 +36,7 @@ class CompleteProfileDto {
 
 @Controller('profile')
 export class ProfileController {
-    constructor(private profileService: ProfileService) {
+    constructor(private profileService: ProfileService, private supabaseService:SupabaseService) {
     }
 
     @HttpCode(HttpStatus.OK)
@@ -39,16 +52,23 @@ export class ProfileController {
     }
 
     @HttpCode(HttpStatus.OK)
+    @UseInterceptors(FileInterceptor('file'))
     @Post("complete-profile")
-    async completeProfile(@Body() dto:CompleteProfileDto, @Res() res:Response, @Req() req:Request) {
+    async completeProfile(@Body() dto:CompleteProfileDto, @Res() res:Response, @Req() req:Request, @UploadedFile() file: Express.Multer.File) {
         let user: User = req["user"]
+        let newFile = new File([file.buffer], file.originalname, {type:file.mimetype})
+        let pictureUrl:string|null = await this.supabaseService.create("profile-picture", `${user.id}/${file.originalname}`, newFile)
+        if (pictureUrl == null) {
+            pictureUrl = "";
+        }
         const profile = this.profileService.createProfile(
             user.id,
-            dto.weight,
-            dto.height,
+            parseFloat(dto.weight),
+            parseFloat(dto.height),
             dto.dateOfBirth,
             dto.activityLevel,
-            dto.dietPreference
+            dto.dietPreference,
+            pictureUrl
         )
         return res.json(profile);
     }

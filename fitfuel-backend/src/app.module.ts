@@ -8,9 +8,10 @@ import {APP_GUARD} from "@nestjs/core";
 import {AuthGuard} from "./auth/auth.guard";
 import { ProfileService } from './profile/profile.service';
 import { ProfileModule } from './profile/profile.module';
+import { SupabaseModule } from './supabase/supabase.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, ProfileModule],
+  imports: [AuthModule, UsersModule, ProfileModule, SupabaseModule],
   controllers: [AppController],
   providers: [AppService, {
     provide: APP_GUARD,

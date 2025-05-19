@@ -45,4 +45,5 @@ model Profile {
   dateOfBirth DateTime
   dietPreference DietPreference @default(GENERAL)
   activityLevel ActivityLevel @default(MODERATE)
+  picture_url String?
 }
