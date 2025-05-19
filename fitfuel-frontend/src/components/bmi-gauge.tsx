@@ -73,7 +73,7 @@ export function BMIGauge({ bmi, size }: BMIGaugeProps) {
         labels={{
           valueLabel: { 
             matchColorWithArc: true,
-            formatTextValue: value => value.toFixed(1),
+            formatTextValue: value => value.toFixed(2),
             style: { fontSize: 14 }
           },
           tickLabels: {
