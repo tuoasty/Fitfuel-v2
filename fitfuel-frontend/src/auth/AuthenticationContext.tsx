@@ -11,6 +11,7 @@ type AuthContextType = {
     user:User | null
     verifyLogin: () => Promise<boolean>
     verifyProfile: () => Promise<boolean>
+    logout: () => Promise<void>
 }
 
 export const AuthProvider = ({children} : {children: React.ReactNode}) => {
@@ -23,15 +24,31 @@ export const AuthProvider = ({children} : {children: React.ReactNode}) => {
                 setUser(response.data.user)
                 return true
             }
+        } catch {
+            return false
+        }
+        return false
+    }
+
+    const logout = async () => {
+        try {
+            const response = await axios.post("http://localhost:3000/auth/logout",{}, {
+                withCredentials: true
+            });
+            if (response.data.success) {
+                console.log(response);
+                toast.success("Logout successful! Redirecting...");
+                setTimeout(() => {
+                    window.location.href = "/landing"
+                }, 1000);
+            }
         } catch (error) {
-            let errorMessage = 'Unauthenticated. Please login again';
+            let errorMessage = 'Logout failed.';
             if(axios.isAxiosError(error)) {
                 errorMessage = error.response?.data?.message || "Unable to connect to server";
             }
             toast.error(errorMessage);
-            return false
         }
-        return false
     }
 
     const verifyProfile = async ():Promise<boolean> => {
@@ -54,7 +71,8 @@ export const AuthProvider = ({children} : {children: React.ReactNode}) => {
     const value:AuthContextType = {
         user,
         verifyLogin,
-        verifyProfile
+        verifyProfile,
+        logout
     }
 
     return (

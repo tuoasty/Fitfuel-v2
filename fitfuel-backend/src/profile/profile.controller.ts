@@ -53,8 +53,11 @@ export class ProfileController {
 
     @HttpCode(HttpStatus.OK)
     @UseInterceptors(FileInterceptor('file'))
-    @Post("complete-profile")
+    @Post("complete")
     async completeProfile(@Body() dto:CompleteProfileDto, @Res() res:Response, @Req() req:Request, @UploadedFile() file: Express.Multer.File) {
+        console.log(dto.weight);
+        console.log(dto.activityLevel);
+        console.log(dto.dietPreference);
         let user: User = req["user"]
         let newFile = new File([file.buffer], file.originalname, {type:file.mimetype})
         let pictureUrl:string|null = await this.supabaseService.create("profile-picture", `${user.id}/${file.originalname}`, newFile)

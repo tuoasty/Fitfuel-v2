@@ -64,7 +64,8 @@ export class AuthController {
         res.clearCookie("access_token", {
             httpOnly: true,
             secure: false,
-            sameSite: "lax"
+            sameSite: "lax",
+            path: "/"
         });
         return res.status(200).send({message:"Logout successful", success:true});
     }

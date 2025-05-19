@@ -53,7 +53,7 @@ export default function Login() {
 
     useEffect(() => {
         if (Object.keys(errors).length > 0) {
-            Object.entries(errors).forEach(([field, error]) => {
+            Object.entries(errors).forEach(([_, error]) => {
                 if (error?.message) {
                     toast.error(error.message);
                 }
