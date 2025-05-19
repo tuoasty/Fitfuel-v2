@@ -6,8 +6,9 @@ import {Button} from "../../components/ui/button.tsx";
 import {Card, CardContent} from "../../components/ui/card.tsx";
 import {Mail, Lock} from "lucide-react"
 import {Input} from "../../components/ui/input.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {toast} from "sonner";
+import { useNavigate } from "react-router";
 
 type Inputs = {
     email: string
@@ -16,6 +17,8 @@ type Inputs = {
 
 export default function Login() {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const navigate = useNavigate()
+
     const onSubmit = async (data: Inputs) => {
         setIsSubmitting(true);
         try {
@@ -26,8 +29,8 @@ export default function Login() {
                 console.log(response);
                 toast.success("Login successful! Redirecting...");
                 setTimeout(() => {
-                    window.location.href = '/home';
-                }, 2000);
+                    navigate("/home");
+                }, 1000);
             }
         } catch (error) {
             let errorMessage = 'Login failed.';
@@ -43,7 +46,20 @@ export default function Login() {
     const {
         register,
         handleSubmit,
-    } = useForm<Inputs>();
+        formState: { errors },
+    } = useForm<Inputs>({
+        shouldFocusError: true
+    });
+
+    useEffect(() => {
+        if (Object.keys(errors).length > 0) {
+            Object.entries(errors).forEach(([field, error]) => {
+                if (error?.message) {
+                    toast.error(error.message);
+                }
+            });
+        }
+    }, [errors]);
 
     return (
         <main className="relative w-full h-full overflow-hidden bg-background text-foreground flex flex-col justify-center items-center">
@@ -76,7 +92,13 @@ export default function Login() {
                                             id="email"
                                             placeholder="Your email"
                                             className="pl-10"
-                                            {...register("email", { required: true })}
+                                            {...register("email", { 
+                                                required: "Email is required", 
+                                                pattern: {
+                                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                                    message: "Invalid email address"
+                                                }
+                                            })}
                                         />
                                     </div>
                                 </div>
@@ -92,7 +114,9 @@ export default function Login() {
                                             placeholder="Your password"
                                             type="password"
                                             className="pl-10"
-                                            {...register("password", { required: true })}
+                                            {...register("password", { 
+                                                required: "Password is required",
+                                            })}
                                         />
                                     </div>
                                 </div>

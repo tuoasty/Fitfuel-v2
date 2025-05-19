@@ -6,8 +6,9 @@ import {Button} from "../../components/ui/button.tsx";
 import {Card, CardContent} from "../../components/ui/card.tsx";
 import {Mail, Lock, UserRoundPen, Phone} from "lucide-react"
 import {Input} from "../../components/ui/input.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {toast} from "sonner";
+import { useNavigate } from "react-router";
 
 type Inputs = {
     first_name: string
@@ -19,6 +20,7 @@ type Inputs = {
 
 export default function Register(){
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const navigate = useNavigate()
 
     const onSubmit = async (data: Inputs) => {
         setIsSubmitting(true);
@@ -27,7 +29,7 @@ export default function Register(){
             if (response.data.success) {
                 toast.success("Register successful! Redirecting...");
                 setTimeout(() => {
-                    window.location.href = '/login';
+                    navigate("/login")
                 }, 1000);
             }
         } catch (error:unknown | AxiosError) {
@@ -35,16 +37,31 @@ export default function Register(){
             if(axios.isAxiosError(error)) {
                 errorMessage = error.response?.data?.message || "Unable to connect to server";
             }
-            toast.error(errorMessage);
+            toast.error("errorMessage");
         } finally {
             setIsSubmitting(false);
         }
     }
 
     const {
-            register,
-            handleSubmit,
-        } = useForm<Inputs>();
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<Inputs>({
+        shouldFocusError: true
+    });
+
+    useEffect(() => {
+        if (Object.keys(errors).length > 0) {
+            Object.entries(errors).forEach(([field, error]) => {
+                if (error?.message) {
+                    toast.error(error.message);
+                }
+            });
+        }
+    }, [errors]);
+
+    
     return (
         <main className="relative w-full h-full overflow-hidden bg-background text-foreground flex flex-col justify-center items-center">
             <img alt="Background Image" src={background || "/placeholder.svg"} className="w-full h-full absolute opacity-50 object-cover" />
@@ -59,69 +76,66 @@ export default function Register(){
 
                             <div className="space-y-4 w-full">
                                 <div className="space-y-2">
-                                    <label htmlFor="first_name">
-                                        First Name
-                                    </label>
                                     <div className="relative">
                                         <UserRoundPen className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                         <Input
                                             id="first_name"
                                             placeholder="Your first name"
                                             className="pl-10"
-                                            {...register("first_name", { required: true })}
+                                            {...register("first_name", { 
+                                                required: "First name is required",
+                                            })}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label htmlFor="last_name">
-                                        Last Name
-                                    </label>
                                     <div className="relative">
                                         <UserRoundPen className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                         <Input
                                             id="last_name"
                                             placeholder="Your last name"
                                             className="pl-10"
-                                            {...register("last_name", { required: true })}
+                                            {...register("last_name", { 
+                                                required: "Last name is required",
+                                            })}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label htmlFor="phone_number">
-                                        Phone Number
-                                    </label>
                                     <div className="relative">
                                         <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                         <Input
                                             id="phone_number"
                                             placeholder="Your phone number"
                                             className="pl-10"
-                                            {...register("phone_number", { required: true })}
+                                            {...register("phone_number", { 
+                                                required: "Phone number is required",
+                                            })}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label htmlFor="email">
-                                        Email
-                                    </label>
                                     <div className="relative">
                                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                         <Input
                                             id="email"
                                             placeholder="Your email"
                                             className="pl-10"
-                                            {...register("email", { required: true })}
+                                            {...register("email", { 
+                                                required: "Email is required",
+                                                pattern: {
+                                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                                    message: "Invalid email address"
+                                                }
+                                            })}
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label htmlFor="password">
-                                        Password
-                                    </label>
                                     <div className="relative">
                                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                         <Input
@@ -129,7 +143,9 @@ export default function Register(){
                                             placeholder="Your password"
                                             type="password"
                                             className="pl-10"
-                                            {...register("password", { required: true })}
+                                            {...register("password", { 
+                                                required: "Password is required",
+                                            })}
                                         />
                                     </div>
                                 </div>
