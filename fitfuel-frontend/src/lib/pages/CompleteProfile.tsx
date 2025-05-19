@@ -1,5 +1,5 @@
 import axios, {AxiosError} from "axios";
-import {useEffect, useState} from "react";
+import {type ChangeEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router";
 import {toast} from "sonner";
 import {useForm} from "react-hook-form";
@@ -31,6 +31,7 @@ type Inputs = {
     dateOfBirth: string;
     dietPreference: "GENERAL" | "VEGAN" | "VEGETARIAN";
     activityLevel: "SEDENTARY" | "LIGHT" | "MODERATE" | "VERY" | "EXTRA";
+    file:File;
 };
 
 export default function CompleteProfile() {
@@ -39,6 +40,8 @@ export default function CompleteProfile() {
     const [date, setDate] = useState<Date | undefined>(undefined);
     const [calendarDate, setCalendarDate] = useState(new Date());
     const {logout} = UseAuth();
+    const [file, setFile] = useState<File | null>(null);
+    const [preview, setPreview] = useState<string | null>(null);
 
     const dietPreferences = [
         {value: "GENERAL", label: "General"},
@@ -114,11 +117,23 @@ export default function CompleteProfile() {
     const onSubmit = async (data: Inputs) => {
         setIsSubmitting(true);
         console.log(data);
+
+        const formData = new FormData();
+        formData.append("weight", data.weight.toString())
+        formData.append("height", data.height.toString())
+        formData.append("dateOfBirth", data.dateOfBirth);
+        formData.append("dietPreference", data.dietPreference);
+        formData.append("activityLevel", data.activityLevel);
+        if (file) {
+            formData.append("file", file);
+        }
+
         try {
-            const response = await axios.post("http://localhost:3000/profile/complete", data, {
+            const response = await axios.post("http://localhost:3000/profile/complete", formData, {
                 withCredentials: true,
             });
-            if (response.data.success) {
+            console.log(response)
+            if (response.status === 200) {
                 toast.success("Profile completed! Redirecting...");
                 setTimeout(() => {
                     navigate("/home");
@@ -135,6 +150,14 @@ export default function CompleteProfile() {
             setIsSubmitting(false);
         }
     };
+
+    const handleFileChange = (e:ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = e.target.files?.[0];
+        if(selectedFile && selectedFile.type.startsWith("image/")){
+            setFile(selectedFile);
+            setPreview(URL.createObjectURL(selectedFile));
+        }
+    }
 
     useEffect(() => {
         if (Object.keys(errors).length > 0) {
@@ -355,6 +378,18 @@ export default function CompleteProfile() {
                                 </SelectContent>
                             </Select>
                         </div>
+
+                        {preview && (
+                            <img
+                            src={preview}
+                            alt="Selected Profile"
+                            className="profile-image-preview"/>
+                        )}
+                        <input
+                        type="file"
+                        name="file"
+                        accept="image/png, image/jpeg"
+                        onChange={handleFileChange}/>
 
                         <Button
                             type="submit"

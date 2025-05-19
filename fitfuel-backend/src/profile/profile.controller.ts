@@ -55,9 +55,9 @@ export class ProfileController {
     @UseInterceptors(FileInterceptor('file'))
     @Post("complete")
     async completeProfile(@Body() dto:CompleteProfileDto, @Res() res:Response, @Req() req:Request, @UploadedFile() file: Express.Multer.File) {
-        console.log(dto.weight);
-        console.log(dto.activityLevel);
-        console.log(dto.dietPreference);
+        if(file == null) {
+            return res.status(HttpStatus.BAD_REQUEST).send({message: "Please include a profile picture"})
+        }
         let user: User = req["user"]
         let newFile = new File([file.buffer], file.originalname, {type:file.mimetype})
         let pictureUrl:string|null = await this.supabaseService.create("profile-picture", `${user.id}/${file.originalname}`, newFile)
@@ -73,6 +73,6 @@ export class ProfileController {
             dto.dietPreference,
             pictureUrl
         )
-        return res.json(profile);
+        return res.status(HttpStatus.OK).send({profile});
     }
 }

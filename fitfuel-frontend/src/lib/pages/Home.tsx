@@ -28,7 +28,7 @@ import { Footer } from "../../components/footer.tsx";
 
 export default function Home() {  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const {user} = UseAuth();
+  const {user, logout} = UseAuth();
   const navigate = useNavigate()
   const currentBMI = 33
 
@@ -123,6 +123,9 @@ export default function Home() {
               <a href="/article" className="hover:underline text-destructive">
                 Article
               </a>
+              <Button onClick={logout}>
+                Logout
+              </Button>
             </nav>
 
             <div className="absolute bottom-32 left-0 right-0 flex flex-col items-center">
