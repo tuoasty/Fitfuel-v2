@@ -98,16 +98,15 @@ export default function Home() {
     const response = await API.get("/profile/me");
     if (response.status === 200) {
       setProfile(response.data.profile);
-      setBmi(parseFloat(response.data.profile.weight) / Math.pow(parseFloat(response.data.profile.height), 2))
+      const finalBmi = parseFloat(response.data.profile.weight) / Math.pow(parseFloat(response.data.profile.height)/100, 2)
+      setBmi(finalBmi);
+      
     }
   }
 
   useEffect(() => {
     getProfile();
   }, []);
-
-  useEffect(() => {
-  }, [profile]);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -149,7 +148,7 @@ export default function Home() {
                 <div className="relative w-12 h-12 rounded-full overflow-hidden mb-2 border-2 border-background">
                     <Avatar className="h-full w-full">
                     <AvatarImage 
-                        src="profile-picture/bbad49fe-231a-4b79-b2ad-d93533bcc9dd/9lskx5.jpg"
+                        src={profile?.picture_url}
                         alt="Profile picture"
                         className="h-full w-full object-cover"
                     />
