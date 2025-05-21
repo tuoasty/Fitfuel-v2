@@ -20,6 +20,20 @@ model User {
   password String
   phone_number String
   profile Profile?
+  @@map(name: "users")
+}
+
+model Profile {
+  id String @id @default(uuid())
+  user User @relation(fields:[userId], references: [id])
+  userId String @unique
+  weight Float
+  height Float
+  dateOfBirth DateTime
+  dietPreference DietPreference @default(GENERAL)
+  activityLevel ActivityLevel @default(MODERATE)
+  picture_url String?
+  @@map(name: "profile")
 }
 
 enum DietPreference {
@@ -36,14 +50,18 @@ enum ActivityLevel {
   EXTRA
 }
 
-model Profile {
+model Recipe {
   id String @id @default(uuid())
-  user User @relation(fields:[userId], references: [id])
-  userId String @unique
-  weight Float
-  height Float
-  dateOfBirth DateTime
-  dietPreference DietPreference @default(GENERAL)
-  activityLevel ActivityLevel @default(MODERATE)
+  name String
+  description String
+  time String
+  calories Int
+  protein Int
+  carbs Int
+  fat Int
+  fiber Int
+  ingredients String[]
+  directions String[]
   picture_url String?
+  @@map(name: "recipe")
 }

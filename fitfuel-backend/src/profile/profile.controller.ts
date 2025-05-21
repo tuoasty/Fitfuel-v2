@@ -60,7 +60,7 @@ export class ProfileController {
         }
         let user: User = req["user"]
         let newFile = new File([file.buffer], file.originalname, {type:file.mimetype})
-        let pictureUrl:string|null = await this.supabaseService.create("profile-picture", `${user.id}/${file.originalname}`, newFile)
+        let pictureUrl:string|null = await this.supabaseService.create(`profile-picture/${user.id}/${file.originalname}`, newFile)
         if (pictureUrl == null) {
             pictureUrl = "";
         }

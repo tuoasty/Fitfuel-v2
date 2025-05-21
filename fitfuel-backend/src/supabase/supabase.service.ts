@@ -8,8 +8,8 @@ export class SupabaseService {
         this.supabase = createClient("https://nkwfrmiuazvqdmfktfka.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rd2ZybWl1YXp2cWRtZmt0ZmthIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NzYxMjgyMiwiZXhwIjoyMDYzMTg4ODIyfQ.c_kodP-ACLOx8t6Z7Anm3PPyhWA6lSRikJcDtLjpGwc")
     }
 
-    async create(bucketName:string, fileName:string, file:File) {
-        const {data, error} = await this.supabase.storage.from(bucketName).upload(fileName, file, {
+    async create(fileName:string, file:File) {
+        const {data, error} = await this.supabase.storage.from("public-bucket").upload(fileName, file, {
             cacheControl: "3600",
             upsert: false,
         })
@@ -17,7 +17,7 @@ export class SupabaseService {
             console.log(error)
             return null
         }
-        const {data:publicUrlData} = this.supabase.storage.from(bucketName).getPublicUrl(fileName)
+        const {data:publicUrlData} = this.supabase.storage.from("public-bucket").getPublicUrl(fileName)
         return publicUrlData?.publicUrl ?? null;
     }
 }
