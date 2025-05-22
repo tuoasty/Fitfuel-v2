@@ -9,9 +9,10 @@ import {AuthGuard} from "./auth/auth.guard";
 import { ProfileService } from './profile/profile.service';
 import { ProfileModule } from './profile/profile.module';
 import { SupabaseModule } from './supabase/supabase.module';
+import { RecipeModule } from './recipe/recipe.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, ProfileModule, SupabaseModule],
+  imports: [AuthModule, UsersModule, ProfileModule, SupabaseModule, RecipeModule],
   controllers: [AppController],
   providers: [AppService, {
     provide: APP_GUARD,

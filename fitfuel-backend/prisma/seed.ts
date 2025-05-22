@@ -19,6 +19,31 @@ async function main(){
                 picture_url:"https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/profile-picture/dc8b5570-7735-4184-952a-27aa31cd8d90/433727.jpg"}
         ]
     })
+
+    await prisma.recipe.createMany({
+        data: [
+            {
+                id:"bfda07e8-68ce-4508-b862-c590a8ce2d49",
+                name:"Grilled Chicken",
+                description:"Chicken grilled with butter",
+                time:"5 min",
+                calories:250,
+                protein:20,
+                carbs:30,
+                fat:15,
+                fiber:10,
+                ingredients: [
+                    "250g chicken",
+                    "butter as needed"
+                ],
+                directions: [
+                    "Put butter in the pan",
+                    "Sear the chicken until golden brown"
+                ],
+                picture_url: "https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/recipe-picture/bfda07e8-68ce-4508-b862-c590a8ce2d49/grilled-chicken.jpg"
+            }
+        ]
+    })
 }
 main().then(async () => {
     await prisma.$disconnect()
