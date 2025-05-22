@@ -120,14 +120,15 @@ export const LoginRoute = () => {
 }
 
 export const ProtectedRoute = () => {
-    const {user, verifyLogin, verifyProfile} = UseAuth();
+    const {verifyLogin, verifyProfile} = UseAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const checkLogin = async () => {
             const isLoggedIn = await verifyLogin();
-            if (!isLoggedIn || !user) {
+            if (!isLoggedIn) {
+                console.log("Navigate to landing");
                 navigate("/landing", {replace: true});
                 return;
             }
