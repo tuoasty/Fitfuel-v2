@@ -5,8 +5,8 @@ import { Input } from "./ui/input";
 export function Footer() {
     return (
         <main>
-            <div>
-                <Card className="bg-primary text-background p-4 rounded-lg">
+            <div className="bg-foreground w-full">
+                <Card className="bg-primary text-background p-4 rounded-none">
                     <div className="relative">
                         <div className="absolute top-0 right-0 p-3">
                             <h2 className="font-bold text-xl">FitFuel</h2>

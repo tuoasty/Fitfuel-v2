@@ -17,7 +17,7 @@ export default function RecipeCard(p:Props) {
     const [isFavorite, setIsFavorite] = useState(false)
 
     return (
-        <div className="w-full max-w-[280px] bg-background rounded-xl overflow-hidden shadow-sm">
+        <div className="w-full max-w-[200px] md:max-w-[220px] lg:max-w-[280px] bg-background rounded-xl overflow-hidden shadow-sm">
             <div className="relative">
                 <img src={p.picture_url || "/placeholder.svg"} alt={p.name} className="w-full aspect-square object-cover" />
                 <div className="absolute bottom-2 right-2 bg-destructive text-background rounded-full px-2 gap-1 py-1 text-xs font-medium flex items-center">

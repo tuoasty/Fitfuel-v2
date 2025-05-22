@@ -2,7 +2,7 @@ import { GaugeComponent } from 'react-gauge-component';
 
 interface BMIGaugeProps {
   bmi: number;
-  size?: number;
+  size: number;
 }
 
 const getBMICategory = (bmi: number) => {
@@ -15,7 +15,7 @@ const getBMICategory = (bmi: number) => {
 
 export function BMIGauge({ bmi, size }: BMIGaugeProps) {
   return (
-    <div style={{ width: size, height: size  /2 }}>
+    <div style={{ width: size, height: size/2 }}>
       <GaugeComponent
         style={{ width: '100%', height: '100%' }}
         type="semicircle"

@@ -3,16 +3,14 @@ import {Button} from "./ui/button.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "./ui/avatar.tsx";
 import {useNavigate} from "react-router";
 import {UseAuth} from "../auth/AuthenticationContext.tsx";
-import type {Profile} from "../type/profile.ts";
 
 interface Props {
     isSidebarOpen: boolean;
     toggleSidebar: () => void;
-    profile:Profile | null;
 }
 
 export default function Sidebar(p: Props) {
-    const {logout, user} = UseAuth();
+    const {logout, user, profile} = UseAuth();
     const navigate = useNavigate();
     if (!p.isSidebarOpen) return null;
 
@@ -46,7 +44,7 @@ export default function Sidebar(p: Props) {
                     <div className="relative w-12 h-12 rounded-full overflow-hidden mb-2 border-2 border-background">
                         <Avatar className="h-full w-full">
                             <AvatarImage
-                                src={p.profile?.picture_url}
+                                src={profile?.picture_url}
                                 alt="Profile picture"
                                 className="h-full w-full object-cover"
                             />

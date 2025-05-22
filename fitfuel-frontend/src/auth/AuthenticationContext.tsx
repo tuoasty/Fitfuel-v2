@@ -4,11 +4,13 @@ import API from "../utils/API.ts";
 import axios from "axios";
 import {toast} from "sonner";
 import {useNavigate, Outlet} from "react-router";
+import type {Profile} from "../type/profile.ts";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 type AuthContextType = {
     user:User | null
+    profile:Profile | null
     verifyLogin: () => Promise<boolean>
     verifyProfile: () => Promise<boolean>
     logout: () => Promise<void>
@@ -16,6 +18,7 @@ type AuthContextType = {
 
 export const AuthProvider = ({children} : {children: React.ReactNode}) => {
     const [user, setUser] = useState<User | null>(null);
+    const [profile, setProfile] = useState<Profile | null>(null);
 
     const verifyLogin = async ():Promise<boolean> => {
         try {
@@ -55,6 +58,7 @@ export const AuthProvider = ({children} : {children: React.ReactNode}) => {
         try {
             const response = await API.get("/profile/me");
             if (response.status === 200) {
+                setProfile(response.data.profile)
                 return true
             }
         } catch (error) {
@@ -70,6 +74,7 @@ export const AuthProvider = ({children} : {children: React.ReactNode}) => {
 
     const value:AuthContextType = {
         user,
+        profile,
         verifyLogin,
         verifyProfile,
         logout
