@@ -18,7 +18,7 @@ export function BMIGauge({ bmi, size }: BMIGaugeProps) {
     <div style={{ width: size, height: size/2 }}>
       <GaugeComponent
         style={{ width: '100%', height: '100%' }}
-        type="semicircle"
+        type="radial"
         arc={{
           width: 0.5,
           padding: 0.01,
@@ -74,7 +74,8 @@ export function BMIGauge({ bmi, size }: BMIGaugeProps) {
           valueLabel: { 
             matchColorWithArc: true,
             formatTextValue: value => value.toFixed(2),
-            style: { fontSize: 14 }
+            style: { fontSize: 16 }
+            
           },
           tickLabels: {
             type: 'inner',
@@ -86,7 +87,7 @@ export function BMIGauge({ bmi, size }: BMIGaugeProps) {
             ],
             defaultTickValueConfig: {
               formatTextValue: (bmiIndex: number) => bmiIndex.toString(),
-              style: { fontSize: 10 }
+              style: { fontSize: 14 }
             },
             defaultTickLineConfig: {
             },

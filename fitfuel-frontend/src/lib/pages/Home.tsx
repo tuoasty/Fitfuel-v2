@@ -100,13 +100,17 @@ export default function Home() {
         </div>
         <Card className="p-4 mb-6 shadow-sm">
           <div className="relative">
-            <div className="flex justify-center mb-10">
-              <BMIGauge bmi={bmi} size={500}/>
+            <div className="flex justify-center mb-25">              
+                <BMIGauge bmi={bmi} size={500}/>
             </div>
             <h3 className="text-center text-sm font-medium">Your BMI today!</h3>
             <div className="flex justify-center mt-2">
-              <Button variant="outline" size="sm" className="text-xs rounded-full text-primary border-primary">
-                Daily Charts Inside
+              <Button 
+              variant="default" size="sm" 
+              onClick={() => navigate('/daily-calorie-intake')}
+              className="text-xs rounded-full 
+              text-white border-primary">
+                Daily Calorie Intake
               </Button>
             </div>
           </div>
