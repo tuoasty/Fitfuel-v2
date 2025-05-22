@@ -41,6 +41,26 @@ async function main(){
                     "Sear the chicken until golden brown"
                 ],
                 picture_url: "https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/recipe-picture/bfda07e8-68ce-4508-b862-c590a8ce2d49/grilled-chicken.jpg"
+            },
+            {
+                id: "4799a504-37e5-4228-85dd-e2f05fa248b3",
+                name: "Fried Rice",
+                description: "Rice fried in a pan",
+                time: "10 min",
+                calories: 350,
+                protein: 10,
+                carbs: 50,
+                fat: 10,
+                fiber: 5,
+                ingredients: [
+                    "200g rice",
+                    "toppings"
+                ],
+                directions: [
+                    "Put rice in the pan",
+                    "Put toppings"
+                ],
+                picture_url: "https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/recipe-picture/4799a504-37e5-4228-85dd-e2f05fa248b3/fried-rice.jpg"
             }
         ]
     })

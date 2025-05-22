@@ -80,7 +80,6 @@ export class RecipeController {
     @Get()
     async getRecipes(@Res() res:Response) {
         const recipes = await this.recipeService.getAll()
-        console.log(recipes);
         res.status(HttpStatus.OK).send(recipes)
     }
 }
