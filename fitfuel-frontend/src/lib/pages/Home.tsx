@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react"
-import { X, ChevronDown } from "lucide-react"
 import {Button} from "../../components/ui/button.tsx";
 import {Card} from "../../components/ui/card.tsx";
 import {BMIGauge} from "../../components/bmi-gauge.tsx";
@@ -20,17 +19,17 @@ import recipe from "../../assets/register_image_2.png"
 import article1 from "../../assets/register_image_3.png"
 import article2 from "../../assets/landing_background_2.png";
 import article3 from "../../assets/landing_image.png"
-import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar.tsx";
 import { useNavigate } from "react-router";
 import {UseAuth} from "../../auth/AuthenticationContext.tsx";
 import { Footer } from "../../components/footer.tsx";
 import type {Profile} from "../../type/profile.ts";
 import API from "../../utils/API.ts";
 import FitfuelHeader from "../../components/header.tsx";
+import Sidebar from "../../components/sidebar.tsx";
 
 export default function Home() {  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const {user, logout} = UseAuth();
+  const {user} = UseAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
   const navigate = useNavigate()
   const [bmi, setBmi] = useState(10);
@@ -101,7 +100,6 @@ export default function Home() {
       setProfile(response.data.profile);
       const finalBmi = parseFloat(response.data.profile.weight) / Math.pow(parseFloat(response.data.profile.height)/100, 2)
       setBmi(finalBmi);
-      
     }
   }
 
@@ -115,50 +113,7 @@ export default function Home() {
       <FitfuelHeader toggleSidebar={toggleSidebar} />
 
       {/* Sidebar */}
-      {isSidebarOpen && (
-        <div className="fixed inset-0 z-50">
-          <div className="fixed right-0 top-0 h-full w-64 bg-gradient-to-b from-[#2d6a4f] to-[#1b4332] text-background p-6 transform transition-transform duration-300">
-            <div className="flex justify-between items-center mb-10">
-              <h2 className="text-xl font-bold">FitFuel</h2>
-              <button onClick={toggleSidebar}>
-                <X className="h-6 w-6" />
-              </button>
-            </div>
-
-            <nav className="space-y-6 flex flex-col">
-              <Button onClick={() => navigate("/home")} className="hover:underline text-destructive">
-                Home
-              </Button>
-              <Button onClick={() => navigate("/recipe")} className="hover:underline text-destructive">
-                Recipe
-              </Button>
-              <Button onClick={() => navigate("/article")} className="hover:underline text-destructive">
-                Article
-              </Button>
-              <Button onClick={logout}>
-                Logout
-              </Button>
-            </nav>
-
-            <div className="absolute bottom-32 left-0 right-0 flex flex-col items-center">
-                <div className="relative w-12 h-12 rounded-full overflow-hidden mb-2 border-2 border-background">
-                    <Avatar className="h-full w-full">
-                    <AvatarImage 
-                        src={profile?.picture_url}
-                        alt="Profile picture"
-                        className="h-full w-full object-cover"
-                    />
-                    <AvatarFallback>profile image</AvatarFallback>
-                    </Avatar>
-                </div>
-                <div className="flex items-center">
-                    <span className="font-medium">{user?.name}</span>
-                    <ChevronDown className="h-4 w-4 ml-1" />
-                </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} profile={profile}/>
 
       <div className="px-4 pb-20">
         {/* Greeting */}
