@@ -28,6 +28,7 @@ export default function Recipes(){
                             name={recipe.name}
                             category={recipe.category}
                             calories={recipe.calories}
+                            id={recipe.id}
                         />
                     ))}
                 </div>

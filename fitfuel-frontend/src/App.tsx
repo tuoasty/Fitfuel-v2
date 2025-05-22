@@ -7,6 +7,7 @@ import {Toaster} from "./components/ui/sonner.tsx";
 import {AuthProvider, LoginRoute, ProtectedRoute, RequireAuthorization} from "./auth/AuthenticationContext.tsx";
 import CompleteProfile from "./lib/pages/CompleteProfile.tsx";
 import Recipes from "./lib/pages/Recipes.tsx";
+import RecipeDetail from "./lib/pages/RecipeDetail.tsx";
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                         <Route element={<ProtectedRoute/>}>
                             <Route path="home" element={<Home/>}/>
                             <Route path="recipe" element={<Recipes/>}/>
+                            <Route path="recipe/:recipeId" element={<RecipeDetail/>}/>
                         </Route>
                     </Routes>
                 </BrowserRouter>

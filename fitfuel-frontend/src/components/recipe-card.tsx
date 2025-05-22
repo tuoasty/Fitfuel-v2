@@ -1,12 +1,14 @@
 import { CiHeart } from "react-icons/ci";
 import { FaFire } from "react-icons/fa";
 import { useState } from "react";
+import {useNavigate} from "react-router";
 
 interface Props {
     picture_url:string
     name:string
     category:string
     calories:number
+    id:string
 }
 
 function toPascalCase(category:string){
@@ -15,9 +17,10 @@ function toPascalCase(category:string){
 
 export default function RecipeCard(p:Props) {
     const [isFavorite, setIsFavorite] = useState(false)
+    const navigate = useNavigate();
 
     return (
-        <div className="w-full max-w-[200px] md:max-w-[220px] lg:max-w-[280px] bg-background rounded-xl overflow-hidden shadow-lg">
+        <div className="w-full max-w-[200px] md:max-w-[220px] lg:max-w-[280px] bg-background rounded-xl overflow-hidden shadow-lg" onClick={()=>navigate(`/recipe/${p.id}`)}>
             <div className="relative">
                 <img src={p.picture_url || "/placeholder.svg"} alt={p.name} className="w-full aspect-square object-cover" />
                 <div className="absolute bottom-2 right-2 bg-destructive text-background rounded-full px-2 gap-1 py-1 text-xs font-medium flex items-center">
