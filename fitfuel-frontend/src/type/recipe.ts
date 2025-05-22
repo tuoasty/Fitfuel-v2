@@ -10,4 +10,6 @@ export type Recipe = {
     protein:number;
     picture_url:string;
     category:string;
+    ingredients:string[];
+    directions:string[];
 }
