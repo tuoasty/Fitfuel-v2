@@ -13,4 +13,8 @@ export class RecipeService {
     async create(data:Prisma.RecipeCreateInput):Promise<Recipe|undefined>{
         return this.prismaService.recipe.create({data})
     }
+
+    async getOne(recipeWhereUniqueInput:Prisma.RecipeWhereUniqueInput){
+        return this.prismaService.recipe.findFirst({where: recipeWhereUniqueInput});
+    }
 }

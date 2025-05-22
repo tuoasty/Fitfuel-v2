@@ -7,6 +7,7 @@ import {
     Post,
     Req,
     Res,
+    Param,
     UploadedFile,
     UseInterceptors
 } from '@nestjs/common';
@@ -81,5 +82,12 @@ export class RecipeController {
     async getRecipes(@Res() res:Response) {
         const recipes = await this.recipeService.getAll()
         res.status(HttpStatus.OK).send(recipes)
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Get("/:id")
+    async getRecipe(@Res() res:Response, @Param("id") id:string){
+        const recipe = await this.recipeService.getOne({id:id})
+        res.status(HttpStatus.OK).send(recipe)
     }
 }
