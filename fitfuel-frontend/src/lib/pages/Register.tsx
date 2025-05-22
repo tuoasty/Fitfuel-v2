@@ -37,7 +37,7 @@ export default function Register(){
             if(axios.isAxiosError(error)) {
                 errorMessage = error.response?.data?.message || "Unable to connect to server";
             }
-            toast.error("errorMessage");
+            toast.error(errorMessage);
         } finally {
             setIsSubmitting(false);
         }
@@ -53,7 +53,7 @@ export default function Register(){
 
     useEffect(() => {
         if (Object.keys(errors).length > 0) {
-            Object.entries(errors).forEach(([field, error]) => {
+            Object.entries(errors).forEach(([_, error]) => {
                 if (error?.message) {
                     toast.error(error.message);
                 }

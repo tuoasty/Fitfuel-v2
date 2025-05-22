@@ -130,15 +130,15 @@ export default function Home() {
             </div>
 
             <nav className="space-y-6 flex flex-col">
-              <a href="/home" className="hover:underline text-destructive">
+              <Button onClick={() => navigate("/home")} className="hover:underline text-destructive">
                 Home
-              </a>
-              <a href="/recipe" className="hover:underline text-destructive">
+              </Button>
+              <Button onClick={() => navigate("/recipe")} className="hover:underline text-destructive">
                 Recipe
-              </a>
-              <a href="/article" className="hover:underline text-destructive">
+              </Button>
+              <Button onClick={() => navigate("/article")} className="hover:underline text-destructive">
                 Article
-              </a>
+              </Button>
               <Button onClick={logout}>
                 Logout
               </Button>

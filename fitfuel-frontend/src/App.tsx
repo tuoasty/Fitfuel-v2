@@ -6,6 +6,7 @@ import Home from "./lib/pages/Home.tsx";
 import {Toaster} from "./components/ui/sonner.tsx";
 import {AuthProvider, LoginRoute, ProtectedRoute, RequireAuthorization} from "./auth/AuthenticationContext.tsx";
 import CompleteProfile from "./lib/pages/CompleteProfile.tsx";
+import Recipes from "./lib/pages/Recipes.tsx";
 
 function App() {
     return (
@@ -13,7 +14,7 @@ function App() {
             <AuthProvider>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="*" element={<Navigate to="landing" replace/>}/>
+                        <Route path="*" element={<Navigate to="/landing" replace/>}/>
                         {/*Login Routes*/}
                         <Route element={<LoginRoute/>}>
                             <Route path="landing" element={<Landing/>}/>
@@ -27,6 +28,7 @@ function App() {
                         {/*Protected Routes*/}
                         <Route element={<ProtectedRoute/>}>
                             <Route path="home" element={<Home/>}/>
+                            <Route path="recipe" element={<Recipes/>}/>
                         </Route>
                     </Routes>
                 </BrowserRouter>
