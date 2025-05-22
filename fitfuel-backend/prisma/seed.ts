@@ -62,7 +62,7 @@ async function main(){
                     "Put toppings"
                 ],
                 picture_url: "https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/recipe-picture/4799a504-37e5-4228-85dd-e2f05fa248b3/fried-rice.jpg",
-                category: RecipeCategory.LUNCH
+                category: RecipeCategory.BREAKFAST
             }
         ]
     })

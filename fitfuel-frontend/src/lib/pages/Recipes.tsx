@@ -16,10 +16,19 @@ export default function Recipes(){
     }, []);
 
     return (
-        <main>
-            {recipes.map((recipe:Recipe, i) => (
-                <RecipeCard key={i} picture_url={recipe.picture_url} name={recipe.name} category={recipe.category} calories={recipe.calories}/>
-            ))}
-        </main>
+        <div className="container mx-auto px-4 py-8 bg-background min-h-screen">
+            <h1 className="text-2xl font-bold text-foreground mb-6">Recipes</h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                {recipes.map((recipe, i) => (
+                    <RecipeCard
+                        key={i}
+                        picture_url={recipe.picture_url}
+                        name={recipe.name}
+                        category={recipe.category}
+                        calories={recipe.calories}
+                    />
+                ))}
+            </div>
+        </div>
     )
 }

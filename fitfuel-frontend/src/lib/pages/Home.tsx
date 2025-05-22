@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react"
-import { Menu, X, ChevronDown } from "lucide-react"
+import { X, ChevronDown } from "lucide-react"
 import {Button} from "../../components/ui/button.tsx";
 import {Card} from "../../components/ui/card.tsx";
 import {BMIGauge} from "../../components/bmi-gauge.tsx";
@@ -26,6 +26,7 @@ import {UseAuth} from "../../auth/AuthenticationContext.tsx";
 import { Footer } from "../../components/footer.tsx";
 import type {Profile} from "../../type/profile.ts";
 import API from "../../utils/API.ts";
+import FitfuelHeader from "../../components/header.tsx";
 
 export default function Home() {  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -111,12 +112,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-background p-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-primary">FitFuel</h1>
-        <button onClick={toggleSidebar} className="p-1">
-          <Menu className="h-6 w-6 text-primary" />
-        </button>
-      </header>
+      <FitfuelHeader toggleSidebar={toggleSidebar} />
 
       {/* Sidebar */}
       {isSidebarOpen && (
