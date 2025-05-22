@@ -8,5 +8,6 @@ export type Recipe = {
     fat:number;
     fiber:number;
     protein:number;
-    picture_url?:string;
+    picture_url:string;
+    category:string;
 }

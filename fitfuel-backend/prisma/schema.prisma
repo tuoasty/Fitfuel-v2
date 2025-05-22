@@ -50,6 +50,13 @@ enum ActivityLevel {
   EXTRA
 }
 
+enum RecipeCategory {
+  BREAKFAST
+  LUNCH
+  DINNER
+  MEAL
+}
+
 model Recipe {
   id String @id @default(uuid())
   name String
@@ -63,5 +70,6 @@ model Recipe {
   ingredients String[]
   directions String[]
   picture_url String?
+  category RecipeCategory @default(MEAL)
   @@map(name: "recipe")
 }

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { PrismaClient } from "@prisma/client";
+import {RecipeCategory, PrismaClient} from "@prisma/client";
 import * as process from "node:process";
 
 const prisma = new PrismaClient();
@@ -40,7 +40,8 @@ async function main(){
                     "Put butter in the pan",
                     "Sear the chicken until golden brown"
                 ],
-                picture_url: "https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/recipe-picture/bfda07e8-68ce-4508-b862-c590a8ce2d49/grilled-chicken.jpg"
+                picture_url: "https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/recipe-picture/bfda07e8-68ce-4508-b862-c590a8ce2d49/grilled-chicken.jpg",
+                category: RecipeCategory.LUNCH
             },
             {
                 id: "4799a504-37e5-4228-85dd-e2f05fa248b3",
@@ -60,7 +61,8 @@ async function main(){
                     "Put rice in the pan",
                     "Put toppings"
                 ],
-                picture_url: "https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/recipe-picture/4799a504-37e5-4228-85dd-e2f05fa248b3/fried-rice.jpg"
+                picture_url: "https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/recipe-picture/4799a504-37e5-4228-85dd-e2f05fa248b3/fried-rice.jpg",
+                category: RecipeCategory.LUNCH
             }
         ]
     })
