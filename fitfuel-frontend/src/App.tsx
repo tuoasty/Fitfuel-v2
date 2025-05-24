@@ -9,6 +9,7 @@ import CompleteProfile from "./lib/pages/CompleteProfile.tsx";
 import DailyCalorieIntake from "./lib/pages/DailyCalorieIntake.tsx";
 import Recipes from "./lib/pages/Recipes.tsx";
 import RecipeDetail from "./lib/pages/RecipeDetail.tsx";
+import Articles from "./lib/pages/Articles.tsx";
 
 function App() {
     return (
@@ -31,6 +32,7 @@ function App() {
                         <Route element={<ProtectedRoute/>}>
                             <Route path="home" element={<Home/>}/>
                             <Route path="daily-calorie-intake" element={<DailyCalorieIntake/>}/>
+                            <Route path="article" element={<Articles/>}/>
                             <Route path="recipe" element={<Recipes/>}/>
                             <Route path="recipe/:recipeId" element={<RecipeDetail/>}/>
                         </Route>
