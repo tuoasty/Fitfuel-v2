@@ -174,7 +174,7 @@ export default function Home() {
                           variant="outline"
                           size="lg"
                           className="text-primary border-primary hover:bg-primary/10"
-                          onClick={() => navigate('/articles')}
+                          onClick={() => navigate('/article')}
                       >
                         View All Articles
                       </Button>

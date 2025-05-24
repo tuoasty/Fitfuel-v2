@@ -9,7 +9,6 @@ import { Button } from "../../components/ui/button";
 import { useNavigate } from "react-router";
 import type { Recipe } from "../../type/recipe";
 import API from "../../utils/API";
-import RecipeCard from "../../components/recipe-card";
 
 export default function DailyCalorieIntake() {
     const {profile} = UseAuth();
