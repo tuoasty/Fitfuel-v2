@@ -24,6 +24,7 @@ const calorieRanges = [
     {label: "200-400 Cal", min: 200, max: 400},
     {label: "400-600 Cal", min: 401, max: 600},
     {label: ">600 Cal", min: 601, max: Number.POSITIVE_INFINITY},
+    {label: "All", min: 0, max: Number.POSITIVE_INFINITY},
 ]
 
 export default function Recipes() {
@@ -44,6 +45,8 @@ export default function Recipes() {
                 params: {
                     category:selectedCategory,
                     search:searchTerm,
+                    minCalories,
+                    maxCalories,
                 }
             });
             setRecipes(response.data);
