@@ -9,14 +9,16 @@ import {
     Res,
     Param,
     UploadedFile,
-    UseInterceptors
+    UseInterceptors, ValidationPipe, Query
 } from '@nestjs/common';
 import {RecipeService} from "./recipe.service";
 import {FileInterceptor} from "@nestjs/platform-express";
-import {ArrayMinSize, IsArray, IsDecimal, IsNotEmpty} from "class-validator";
+import {ArrayMinSize, IsArray, IsDecimal, IsEnum, IsNotEmpty, IsOptional, IsString} from "class-validator";
 import { v4 as uuidv4 } from 'uuid';
 import {SupabaseService} from "../supabase/supabase.service";
 import {Response} from "express";
+import {Transform} from "class-transformer";
+import {DietPreference, RecipeCategory} from "@prisma/client";
 
 class CreateRecipeDto {
     @IsNotEmpty()
@@ -41,6 +43,17 @@ class CreateRecipeDto {
     @IsArray()
     @ArrayMinSize(1)
     directions:string[];
+}
+
+class GetRecipeDto {
+    @IsOptional()
+    @Transform(({value}) =>
+    {
+        if(value === null || value === undefined) return value;
+        return value.toUpperCase()
+    })
+    @IsEnum(RecipeCategory)
+    category?: RecipeCategory;
 }
 
 @Controller('recipe')
@@ -79,15 +92,22 @@ export class RecipeController {
 
     @HttpCode(HttpStatus.OK)
     @Get()
-    async getRecipes(@Res() res:Response) {
-        const recipes = await this.recipeService.getAll()
+    async getRecipes(@Res() res:Response,
+                     @Query(new ValidationPipe({
+                         skipMissingProperties:true,
+                         skipUndefinedProperties:true,
+                         transform:true})) data:GetRecipeDto) {
+        console.log(data);
+        const filters: any = {};
+        if (data.category) filters.category = data.category;
+        const recipes = await this.recipeService.recipes({where:filters})
         res.status(HttpStatus.OK).send(recipes)
     }
 
     @HttpCode(HttpStatus.OK)
     @Get("/:id")
     async getRecipe(@Res() res:Response, @Param("id") id:string){
-        const recipe = await this.recipeService.getOne({id:id})
+        const recipe = await this.recipeService.recipe({id:id})
         res.status(HttpStatus.OK).send(recipe)
     }
 }
