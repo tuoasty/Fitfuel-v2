@@ -32,4 +32,8 @@ export class RecipeService {
       where: recipeWhereUniqueInput,
     });
   }
+
+  async count(){
+    return this.prismaService.recipe.count();
+  }
 }

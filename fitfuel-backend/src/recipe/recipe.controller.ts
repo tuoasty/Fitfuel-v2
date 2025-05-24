@@ -142,6 +142,19 @@ export class RecipeController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @Get("random")
+  async getRandomRecipe(@Res() res:Response){
+    const count = await this.recipeService.count();
+    const skip = Math.floor(Math.random() * count);
+
+    const recipe = await this.recipeService.recipes({
+      skip,
+      take: 1,
+    })
+    res.status(HttpStatus.OK).send(recipe);
+  }
+
+  @HttpCode(HttpStatus.OK)
   @Get('/:id')
   async getRecipe(@Res() res: Response, @Param('id') id: string) {
     const recipe = await this.recipeService.recipe({ id: id });
