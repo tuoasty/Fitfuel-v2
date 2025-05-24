@@ -135,13 +135,12 @@ export default function Home() {
                     </div>
                 </Card>
                 {recipe && (
-                    <Card className="mb-6 bg-gradient-to-b from-secondary to-foreground">
-                        <div className="relative">
+                    <Card className="mb-6 bg-cover bg-center bg-no-repeat bg-gradient-to-b pt-0 from-secondary to-foreground bg-blend-overlay">
+                        <div className="relative mt-6">
                             <div className="absolute -top-2 -right-2 sm:-right-4 bg-destructive text-background px-3 py-1 sm:px-4 sm:py-2 rounded-lg z-10 text-sm font-medium shadow-lg transform hover:scale-105 transition-transform duration-200 border-2 border-destructive">
                                 Recipe of the day!
                             </div>
                             <div className="flex flex-col sm:flex-row">
-                                {/* Image */}
                                 <div className="w-full sm:w-2/5 h-48 sm:h-56">
                                     <img
                                         src={recipe.picture_url || "/placeholder.svg"}
