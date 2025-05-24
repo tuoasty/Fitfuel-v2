@@ -230,6 +230,57 @@ async function main(){
             }
         ]
     })
+
+    await prisma.article.createMany({
+        data: [
+            {
+                id: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+                author: "John Smith",
+                title: "The Benefits of Mediterranean Diet",
+                content: "The Mediterranean diet emphasizes eating primarily plant-based foods, whole grains, legumes, nuts, and replacing butter with healthy fats such as olive oil. This eating pattern has been linked to reduced risk of heart disease, improved brain function, and increased longevity. Recent studies have shown that people following a Mediterranean diet have a 25% lower risk of developing cardiovascular disease...",
+                picture_url: "https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/article-picture/f47ac10b-58cc-4372-a567-0e02b2c3d479/mediterranean-diet.jpg",
+                created_at: new Date('2024-03-15'),
+                updated_at: new Date('2024-03-15')
+            },
+            {
+                id: "a12bc5d6-7890-4ef1-b234-c56d7e8f9a01",
+                author: "Sarah Johnson",
+                title: "Understanding Macronutrients",
+                content: "Macronutrients are the nutrients we need in larger quantities that provide us with energy: protein, carbohydrates, and fats. Each plays a crucial role in our body. Proteins are essential for building and repairing tissues, carbohydrates are our body's main source of energy, and fats help us absorb vitamins and protect our organs...",
+                picture_url: "a12bc5d6-7890-4ef1-b234-c56d7e8f9a01",
+                created_at: new Date('2024-03-16'),
+                updated_at: new Date('2024-03-16')
+            },
+            {
+                id: "b23cd4e5-8901-5fg2-c345-d67e8f9a0b12",
+                author: "Mike Wilson",
+                title: "The Importance of Post-Workout Nutrition",
+                content: "What you eat after a workout is just as important as the workout itself. During exercise, your muscles use up their glycogen stores for fuel. The proteins in your muscles also get broken down and damaged. After your workout, your body tries to rebuild its glycogen stores and repair and regrow those muscle proteins...",
+                picture_url: "https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/article-picture/b23cd4e5-8901-5fg2-c345-d67e8f9a0b12/post-workout.webp",
+                created_at: new Date('2024-03-17'),
+                updated_at: new Date('2024-03-17')
+            },
+            {
+                id: "c34de5f6-9012-6gh3-d456-e78f9a0b1c23",
+                author: "Emily Brown",
+                title: "Mindful Eating Practices",
+                content: "Mindful eating is about using mindfulness to reach a state of full attention to your experiences, cravings, and physical cues when eating. It involves observing rather than judging how the food makes you feel and letting go of food rules that don't serve your health and well-being...",
+                picture_url: "https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/article-picture/c34de5f6-9012-6gh3-d456-e78f9a0b1c23/mindful-eating.png",
+                created_at: new Date('2024-03-18'),
+                updated_at: new Date('2024-03-18')
+            },
+            {
+                id: "d45ef6g7-0123-7hi4-e567-f89a0b1c2d34",
+                author: "David Lee",
+                title: "Hydration and Exercise Performance",
+                content: "Proper hydration is crucial for optimal exercise performance. Even mild dehydration can affect your physical performance and cognitive function. Water regulates your body temperature, lubricates your joints, and helps transport nutrients to give you energy and keep you healthy...",
+                picture_url: "https://nkwfrmiuazvqdmfktfka.supabase.co/storage/v1/object/public/public-bucket/article-picture/d45ef6g7-0123-7hi4-e567-f89a0b1c2d34/hydration-exercise.jpg",
+                created_at: new Date('2024-03-19'),
+                updated_at: new Date('2024-03-19')
+            }
+        ]
+    })
+
 }
 main().then(async () => {
     await prisma.$disconnect()
