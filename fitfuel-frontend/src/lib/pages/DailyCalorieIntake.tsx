@@ -9,6 +9,7 @@ import { Button } from "../../components/ui/button";
 import { useNavigate } from "react-router";
 import type { Recipe } from "../../type/recipe";
 import API from "../../utils/API";
+import RecipeCard from "../../components/recipe-card";
 
 export default function DailyCalorieIntake() {
     const {profile} = UseAuth();
@@ -148,60 +149,77 @@ export default function DailyCalorieIntake() {
                 
                 {/* Meal Recommendation */}
                 <Card className="mb-6">
-                <CardContent className="p-6">
-                    <h2 className="text-xl font-bold text-primary mb-6">Meal Recommendation</h2>
-                    <div className="space-y-4">
-                    {mealTypes.map((mealType) => {
-                        const recipe = recommendedRecipes[mealType]
-                        if (!recipe) return null
+                    <CardContent className="p-6">
+                        <div className="flex items-center justify-between mb-6">
+                            <h2 className="text-xl font-bold text-primary">Today's Meal Plan</h2>
+                            <span className="text-sm text-muted-foreground">
+                                {new Date().toLocaleDateString('en-US', { weekday: 'long' })}
+                            </span>
+                        </div>
+                        <div className="space-y-4">
+                            {mealTypes.map((mealType) => {
+                                const recipe = recommendedRecipes[mealType]
+                                if (!recipe) return null
 
-                        return (
-                        <Card
-                            key={mealType}
-                            className="bg-secondary overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-                        >
-                            <CardContent className="p-0">
-                                <div className="flex h-20 relative">
-                                    <div className="w-25 h-20 flex-shrink-0 pl-5"> 
-                                        <img
-                                            src={recipe.picture_url}
-                                            alt={recipe.name}
-                                            className="w-full h-full object-cover" 
-                                        />
-                                    </div>
+                                return (
+                                    <Card
+                                        key={mealType}
+                                        className="bg-accent-foreground overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer group"
+                                        onClick={() => navigate(`/recipe/${recipe.id}`)}
+                                    >
+                                        <CardContent className="p-0">
+                                            <div className="flex relative">
+                                                <div className="w-24 h-24 flex-shrink-0 pr-2"> {/* Added pr-2 for right padding */}
+                                                    <img 
+                                                        src={recipe.picture_url || "/placeholder.svg"} 
+                                                        alt={recipe.name}
+                                                        className="w-full h-full object-cover" /* Removed transition and hover scale */
+                                                    />
+                                                </div>
 
-                                    <div className="flex-1 p-4 text-white flex flex-col justify-center"> 
-                                        <h3 className="font-bold text-base mb-1 line-clamp-1">{recipe.name}</h3>
-                                        <p className="text-sm opacity-90">{recipe.calories} calories</p>
-                                    </div>
+                                                <div className="flex-1 p-4 text-white flex flex-col justify-center">
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        <span className="uppercase text-xs font-semibold tracking-wider text-primary-foreground/70">
+                                                            {mealType}
+                                                        </span>
+                                                        <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground/30" />
+                                                        <span className="text-sm opacity-90">
+                                                            {recipe.calories} calories
+                                                        </span>
+                                                    </div>
+                                                    <h3 className="font-bold text-base line-clamp-1">
+                                                        {recipe.name}
+                                                    </h3>
+                                                </div>
 
-                                    <div className="absolute top-2 right-2">
-                                        <span className="bg-destructive text-white px-2 py-1 rounded-full text-xs font-medium shadow-sm">
-                                            {getMealBadgeText(mealType)}
-                                        </span>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                        )
-                    })}
-                    </div>
+                                                <div className="absolute top-2 right-2">
+                                                    <span className="bg-[#ff8500] text-white px-3 py-1 rounded-full text-xs font-medium shadow-sm"> {/* Changed to orange color */}
+                                                        {getMealBadgeText(mealType)}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                )
+                            })}
+                        </div>
 
-                    <div className="mt-6 flex justify-between items-center">
-                    <p className="text-sm text-primary">Curious about other healthy recipes?</p>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => navigate("/recipe")}
-                        className="text-primary border-primary hover:bg-primary/10 shadow-sm"
-                    >
-                        See more!
-                    </Button>
-                    </div>
-                </CardContent>
+                        <div className="mt-6 flex justify-between items-center border-t pt-4">
+                            <p className="text-sm text-muted-foreground">
+                                Discover more healthy recipes for your meal plan
+                            </p>
+                            <Button
+                                variant="default"
+                                size="sm"
+                                onClick={() => navigate("/recipe")}
+                                className="bg-primary text-primary-foreground hover:bg-primary/90"
+                            >
+                                See More
+                            </Button>
+                        </div>
+                    </CardContent>
                 </Card>
             </div>
-
         </MainLayout>
     )
 }

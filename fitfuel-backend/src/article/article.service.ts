@@ -9,7 +9,9 @@ export class ArticleService {
   async article(
     articleWhereUniqueInput: Prisma.ArticleWhereUniqueInput,
   ): Promise<Article | null> {
-    return this.prismaService.article.findFirst({ where: articleWhereUniqueInput });
+    return this.prismaService.article.findFirst({
+      where: articleWhereUniqueInput,
+    });
   }
 
   async articles(): Promise<Article[]> {
