@@ -73,3 +73,15 @@ model Recipe {
   category RecipeCategory @default(ALL)
   @@map(name: "recipe")
 }
+
+model Article {
+  id String @id @default(uuid())
+  author String
+  title String
+  content String @db.Text
+  picture_url String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("articles")
+}
