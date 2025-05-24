@@ -25,10 +25,10 @@ import {
   IsString,
 } from 'class-validator';
 import { v4 as uuidv4 } from 'uuid';
-import {SupabaseService} from "../supabase/supabase.service";
-import {Response} from "express";
-import {Transform} from "class-transformer";
-import {RecipeCategory} from "@prisma/client";
+import { SupabaseService } from '../supabase/supabase.service';
+import { Response } from 'express';
+import { Transform } from 'class-transformer';
+import { RecipeCategory } from '@prisma/client';
 
 class CreateRecipeDto {
   @IsNotEmpty()
@@ -56,18 +56,17 @@ class CreateRecipeDto {
 }
 
 class GetRecipeDto {
-    @IsOptional()
-    @Transform(({value}) =>
-    {
-        if(value === null || value === undefined) return value;
-        return value.toUpperCase()
-    })
-    @IsEnum(RecipeCategory)
-    category?: RecipeCategory;
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === null || value === undefined) return value;
+    return value.toUpperCase();
+  })
+  @IsEnum(RecipeCategory)
+  category?: RecipeCategory;
 
-    @IsOptional()
-    @IsString()
-    search?:string;
+  @IsOptional()
+  @IsString()
+  search?: string;
 }
 
 @Controller('recipe')
@@ -119,20 +118,28 @@ export class RecipeController {
     return res.status(HttpStatus.CREATED).send(recipe);
   }
 
-    @HttpCode(HttpStatus.OK)
-    @Get()
-    async getRecipes(@Res() res:Response,
-                     @Query(new ValidationPipe({
-                         skipMissingProperties:true,
-                         skipUndefinedProperties:true,
-                         transform:true})) data:GetRecipeDto) {
-        console.log(data);
-        const filters: any = {};
-        if (data.category && data.category != RecipeCategory.ALL) filters.category = data.category;
-        if (data.search) filters.name = {contains:data.search, mode:"insensitive"};
-        const recipes = await this.recipeService.recipes({where:filters})
-        res.status(HttpStatus.OK).send(recipes)
-    }
+  @HttpCode(HttpStatus.OK)
+  @Get()
+  async getRecipes(
+    @Res() res: Response,
+    @Query(
+      new ValidationPipe({
+        skipMissingProperties: true,
+        skipUndefinedProperties: true,
+        transform: true,
+      }),
+    )
+    data: GetRecipeDto,
+  ) {
+    console.log(data);
+    const filters: any = {};
+    if (data.category && data.category != RecipeCategory.ALL)
+      filters.category = data.category;
+    if (data.search)
+      filters.name = { contains: data.search, mode: 'insensitive' };
+    const recipes = await this.recipeService.recipes({ where: filters });
+    res.status(HttpStatus.OK).send(recipes);
+  }
 
   @HttpCode(HttpStatus.OK)
   @Get('/:id')
