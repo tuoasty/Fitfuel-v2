@@ -18,7 +18,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {SupabaseService} from "../supabase/supabase.service";
 import {Response} from "express";
 import {Transform} from "class-transformer";
-import {DietPreference, RecipeCategory} from "@prisma/client";
+import {RecipeCategory} from "@prisma/client";
 
 class CreateRecipeDto {
     @IsNotEmpty()
@@ -54,6 +54,10 @@ class GetRecipeDto {
     })
     @IsEnum(RecipeCategory)
     category?: RecipeCategory;
+
+    @IsOptional()
+    @IsString()
+    search?:string;
 }
 
 @Controller('recipe')
@@ -99,7 +103,8 @@ export class RecipeController {
                          transform:true})) data:GetRecipeDto) {
         console.log(data);
         const filters: any = {};
-        if (data.category) filters.category = data.category;
+        if (data.category && data.category != RecipeCategory.ALL) filters.category = data.category;
+        if (data.search) filters.name = {contains:data.search, mode:"insensitive"};
         const recipes = await this.recipeService.recipes({where:filters})
         res.status(HttpStatus.OK).send(recipes)
     }

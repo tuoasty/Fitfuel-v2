@@ -1,5 +1,5 @@
 import API from "../../utils/API.ts";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import type {Recipe} from "../../type/recipe.ts";
 import RecipeCard from "../../components/recipe-card.tsx";
 import MainLayout from "../layout/MainLayout.tsx";
@@ -20,30 +20,36 @@ import {
 
 const categories = ["All", "Breakfast", "Lunch", "Dinner"]
 const calorieRanges = [
-    { label: "<200 Cal", min: 0, max: 199 },
-    { label: "200-400 Cal", min: 200, max: 400 },
-    { label: "400-600 Cal", min: 401, max: 600 },
-    { label: ">600 Cal", min: 601, max: Number.POSITIVE_INFINITY },
+    {label: "<200 Cal", min: 0, max: 199},
+    {label: "200-400 Cal", min: 200, max: 400},
+    {label: "400-600 Cal", min: 401, max: 600},
+    {label: ">600 Cal", min: 601, max: Number.POSITIVE_INFINITY},
 ]
 
-export default function Recipes(){
+export default function Recipes() {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [selectedCategory, setSelectedCategory] = useState("All")
     const [loading, setLoading] = useState(false)
 
-    const [searchTerm, setSearchTerm] = useState("")
+    const [searchTerm, setSearchTerm] = useState("");
+    const [debouncedTerm, setDebouncedTerm] = useState("");
+
     const [minCalories, setMinCalories] = useState("")
     const [maxCalories, setMaxCalories] = useState("")
 
-    const getRecipes = async (category?: string) => {
+    const getRecipes = async () => {
         setLoading(true)
         try {
-            const params = category && category != "All" ? {category} : "";
-            const response = await API.get("recipe", {params});
+            const response = await API.get("recipe", {
+                params: {
+                    category:selectedCategory,
+                    search:searchTerm,
+                }
+            });
             setRecipes(response.data);
         } catch (error) {
             let errorMessage = "Error fetching recipes";
-            if(axios.isAxiosError(error)) {
+            if (axios.isAxiosError(error)) {
                 errorMessage = error.response?.data?.message || "Unable to connect to server";
             }
             toast.error(errorMessage);
@@ -52,16 +58,30 @@ export default function Recipes(){
         }
     }
 
-    const handleCategoryChange = async (category:string) => {
+    const handleCategoryChange = async (category: string) => {
         setSelectedCategory(category)
-        await getRecipes(category)
+        await getRecipes()
     }
 
-    const handleSearchChange = async(value:string) => {
+    const handleSearchChange = (value: string) => {
         setSearchTerm(value)
     }
 
-    const handleCalorieChange = (min:string, max:string)=>  {
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedTerm(searchTerm);
+        }, 500);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [searchTerm]);
+
+    useEffect(() => {
+        getRecipes();
+    }, [debouncedTerm]);
+
+    const handleCalorieChange = (min: string, max: string) => {
         setMinCalories(min)
         setMaxCalories(max)
     }
@@ -69,6 +89,10 @@ export default function Recipes(){
     useEffect(() => {
         getRecipes();
     }, []);
+
+    useEffect(() => {
+        getRecipes();
+    }, [selectedCategory, minCalories, maxCalories]);
 
     return (
         <MainLayout>
@@ -80,7 +104,7 @@ export default function Recipes(){
                 </div>
                 <div className="flex gap-2 sm:gap-4 mb-4 sm:mb-6">
                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"/>
                         <Input
                             type="text"
                             placeholder="Search any recipe"
@@ -92,7 +116,7 @@ export default function Recipes(){
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button variant="outline" size="icon" className="lg:hidden">
-                                <SlidersHorizontal className="w-4 h-4" />
+                                <SlidersHorizontal className="w-4 h-4"/>
                             </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-md">
@@ -126,7 +150,9 @@ export default function Recipes(){
                                     <p className="text-sm font-medium">Quick Select:</p>
                                     <div className="grid grid-cols-2 gap-2">
                                         {calorieRanges.map((range) => (
-                                            <Button key={range.label} onClick={() => {handleCalorieChange(range.min.toString(), range.max.toString())}} variant="outline" size="sm" className="text-xs">
+                                            <Button key={range.label} onClick={() => {
+                                                handleCalorieChange(range.min.toString(), range.max.toString())
+                                            }} variant="outline" size="sm" className="text-xs">
                                                 {range.label}
                                             </Button>
                                         ))}
@@ -137,7 +163,7 @@ export default function Recipes(){
                     </Dialog>
 
                     <Button variant="outline" className="hidden lg:flex items-center gap-2" disabled>
-                        <SlidersHorizontal className="w-4 h-4" />
+                        <SlidersHorizontal className="w-4 h-4"/>
                         Filter
                     </Button>
                 </div>
@@ -149,7 +175,8 @@ export default function Recipes(){
                             <Tabs value={selectedCategory} onValueChange={handleCategoryChange}>
                                 <TabsList className="grid w-full grid-cols-4 h-auto p-1">
                                     {categories.map((category) => (
-                                        <TabsTrigger key={category} value={category} className="text-xs sm:text-sm py-2 px-2 sm:px-4">
+                                        <TabsTrigger key={category} value={category}
+                                                     className="text-xs sm:text-sm py-2 px-2 sm:px-4">
                                             {category}
                                         </TabsTrigger>
                                     ))}
@@ -166,7 +193,8 @@ export default function Recipes(){
                                 {selectedCategory === "All" ? "All recipes" : `${selectedCategory} recipes`} ({recipes.length} found)
                             </p>
                         )}
-                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                        <div
+                            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                             {recipes.map((recipe) => (
                                 <RecipeCard
                                     key={recipe.id}
@@ -216,7 +244,10 @@ export default function Recipes(){
 
                                 <div className="space-y-2">
                                     {calorieRanges.map((range) => (
-                                        <Button key={range.label} onClick={() => {handleCalorieChange(range.min.toString(), range.max.toString())}} variant="outline" size="sm" className="w-full justify-start hover:text-secondary">
+                                        <Button key={range.label} onClick={() => {
+                                            handleCalorieChange(range.min.toString(), range.max.toString())
+                                        }} variant="outline" size="sm"
+                                                className="w-full justify-start hover:text-secondary">
                                             {range.label}
                                         </Button>
                                     ))}

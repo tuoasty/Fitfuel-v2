@@ -54,7 +54,7 @@ enum RecipeCategory {
   BREAKFAST
   LUNCH
   DINNER
-  MEAL
+  ALL
 }
 
 model Recipe {
@@ -70,6 +70,6 @@ model Recipe {
   ingredients String[]
   directions String[]
   picture_url String?
-  category RecipeCategory @default(MEAL)
+  category RecipeCategory @default(ALL)
   @@map(name: "recipe")
 }
