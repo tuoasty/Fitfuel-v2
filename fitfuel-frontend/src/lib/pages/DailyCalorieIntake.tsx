@@ -92,8 +92,6 @@ export default function DailyCalorieIntake() {
         <MainLayout>
             <div className="container mx-auto px-4 py-6 bg-background min-h-screen">
                 <h1 className="text-2xl font-bold text-foreground mb-6">Daily Calorie Intake</h1>
-
-                {/* BMI Gauge */}
                 <Card className="mb-6 bg-muted/30">
                     <CardContent className="p-6">
                     <div className="flex justify-center mb-4">
@@ -104,9 +102,7 @@ export default function DailyCalorieIntake() {
                         </h3>
                     </CardContent>
                 </Card>
-
                 <div className="grid grid-cols-2 gap-4 mb-6">
-                    {/* BMI Card */}
                     <Card className="text-white" style={{ backgroundColor: getBMIColor(bmi) }}>
                         <CardContent className="p-6 text-center">
                             <p className="text-sm font-medium mb-2">Your BMI:</p>
@@ -114,8 +110,6 @@ export default function DailyCalorieIntake() {
                             <p className="text-l opacity-90">{getBMICategory(bmi)}</p>
                         </CardContent>
                     </Card>
-
-                    {/* Daily Calories Card */}
                     <Card className="bg-accent">
                     <CardContent className="p-6 text-center">
                         <div className="mb-2">
@@ -128,12 +122,10 @@ export default function DailyCalorieIntake() {
                     </CardContent>
                     </Card>
                 </div>
-
-                {/* Progress Bar */}
                 <Card className="bg-accent mb-6">
                     <CardContent className="p-6">
                     <div className="space-y-4">
-                        {meals.map((meal, index) => (
+                        {meals.map((meal, _) => (
                         <div key={meal.name} className="space-y-2">
                             <div className="flex justify-between items-center">
                             <h3 className="font-semibold text-primary">{meal.name}</h3>
@@ -145,8 +137,6 @@ export default function DailyCalorieIntake() {
                     </div>
                     </CardContent>
                 </Card>
-                
-                {/* Meal Recommendation */}
                 <Card className="mb-6">
                     <CardContent className="p-6">
                         <div className="flex items-center justify-between mb-6">
@@ -161,43 +151,32 @@ export default function DailyCalorieIntake() {
                                 if (!recipe) return null
 
                                 return (
-                                    <Card
-                                        key={mealType}
-                                        className="bg-accent-foreground overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer group"
-                                        onClick={() => navigate(`/recipe/${recipe.id}`)}
-                                    >
-                                        <CardContent className="p-0">
-                                            <div className="flex relative">
-                                                <div className="w-24 h-24 flex-shrink-0 pr-2"> {/* Added pr-2 for right padding */}
-                                                    <img 
-                                                        src={recipe.picture_url || "/placeholder.svg"} 
-                                                        alt={recipe.name}
-                                                        className="w-full h-full object-cover" /* Removed transition and hover scale */
+                                    <Card className="mb-6 bg-cover bg-center bg-no-repeat bg-gradient-to-b pt-0 from-secondary to-foreground bg-blend-overlay">
+                                        <div className="relative mt-6" onClick={() => navigate(`/recipe/${recipe.id}`)}>
+                                            <div className="absolute -top-2 -right-2 sm:-right-4 bg-destructive text-background px-3 py-1 sm:px-4 sm:py-2 rounded-lg z-10 text-sm font-medium shadow-lg transform hover:scale-105 transition-transform duration-200 border-2 border-destructive">
+                                                {getMealBadgeText(mealType)}
+                                            </div>
+                                            <div className="flex flex-col sm:flex-row">
+                                                <div className="w-full sm:w-2/5 h-48 sm:h-56">
+                                                    <img
+                                                        src={recipe.picture_url || "/placeholder.svg"}
+                                                        alt="recipe photo"
+                                                        className="object-cover h-full w-full"
                                                     />
                                                 </div>
-
-                                                <div className="flex-1 p-4 text-white flex flex-col justify-center">
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                        <span className="uppercase text-xs font-semibold tracking-wider text-primary-foreground/70">
-                                                            {mealType}
-                                                        </span>
-                                                        <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground/30" />
-                                                        <span className="text-sm opacity-90">
-                                                            {recipe.calories} calories
-                                                        </span>
-                                                    </div>
-                                                    <h3 className="font-bold text-base line-clamp-1">
+                                                <div className="w-full sm:w-3/5 p-4 sm:p-6 text-white flex flex-col justify-center">
+                                                    <h3 className="font-bold text-xl sm:text-2xl mb-2 text-white">
                                                         {recipe.name}
                                                     </h3>
-                                                </div>
-
-                                                <div className="absolute top-2 right-2">
-                                                    <span className="bg-[#ff8500] text-white px-3 py-1 rounded-full text-xs font-medium shadow-sm"> {/* Changed to orange color */}
-                                                        {getMealBadgeText(mealType)}
-                                                    </span>
+                                                    <p className="text-gray-300 text-sm sm:text-base mb-3">
+                                                        {recipe.calories} calories
+                                                    </p>
+                                                    <p className="text-gray-400 text-sm leading-relaxed line-clamp-3 sm:line-clamp-none">
+                                                        {recipe.description}
+                                                    </p>
                                                 </div>
                                             </div>
-                                        </CardContent>
+                                        </div>
                                     </Card>
                                 )
                             })}
