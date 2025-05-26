@@ -116,7 +116,6 @@ export default function CompleteProfile() {
 
     const onSubmit = async (data: Inputs) => {
         setIsSubmitting(true);
-        console.log(data);
 
         const formData = new FormData();
         formData.append("weight", data.weight.toString())
@@ -132,7 +131,6 @@ export default function CompleteProfile() {
             const response = await axios.post("http://localhost:3000/profile/complete", formData, {
                 withCredentials: true,
             });
-            console.log(response)
             if (response.status === 200) {
                 toast.success("Profile completed! Redirecting...");
                 setTimeout(() => {

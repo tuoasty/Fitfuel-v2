@@ -131,7 +131,6 @@ export class RecipeController {
     )
     data: GetRecipeDto,
   ) {
-    console.log(data);
     const filters: any = {};
     if (data.category && data.category != RecipeCategory.ALL)
       filters.category = data.category;

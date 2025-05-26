@@ -26,7 +26,6 @@ export default function Login() {
                 withCredentials: true
             });
             if (response.data.success) {
-                console.log(response);
                 toast.success("Login successful! Redirecting...");
                 setTimeout(() => {
                     navigate("/home");

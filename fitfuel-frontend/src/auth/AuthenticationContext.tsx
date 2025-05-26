@@ -39,7 +39,6 @@ export const AuthProvider = ({children} : {children: React.ReactNode}) => {
                 withCredentials: true
             });
             if (response.data.success) {
-                console.log(response);
                 toast.success("Logout successful! Redirecting...");
                 setTimeout(() => {
                     window.location.href = "/landing"
@@ -133,7 +132,6 @@ export const ProtectedRoute = () => {
         const checkLogin = async () => {
             const isLoggedIn = await verifyLogin();
             if (!isLoggedIn) {
-                console.log("Navigate to landing");
                 navigate("/landing", {replace: true});
                 return;
             }

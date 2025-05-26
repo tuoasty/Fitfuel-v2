@@ -10,7 +10,11 @@ import { PiBreadFill } from "react-icons/pi";
 import { GiFruitBowl } from "react-icons/gi";
 import { LuWheat } from "react-icons/lu";
 
-export default function RecipeDetail(){
+interface Props {
+    onBack?: () => void
+}
+
+export default function RecipeDetail({ onBack }: Props){
     const { recipeId } = useParams();
     const navigate = useNavigate();
     const [recipe, setRecipe] = useState<Recipe | null>(null);
@@ -36,7 +40,7 @@ export default function RecipeDetail(){
     return (
         <div className="bg-white min-h-screen">
             <div className="absolute top-4 left-4 z-10 box-border">
-                <Button onClick={() => navigate("/recipe")} className="bg-white rounded-full p-2 shadow-md">
+                <Button onClick={onBack} className="bg-white rounded-full p-2 shadow-md">
                     <ArrowLeft className="h-5 w-5 text-gray-700" />
                 </Button>
             </div>

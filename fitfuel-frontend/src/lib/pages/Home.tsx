@@ -89,7 +89,6 @@ export default function Home() {
     const getRecipe = async () => {
         try {
             const response = await API.get("recipe/random")
-            console.log(response);
             if (response.status == 200) {
                 setRecipe(response.data[0]);
             }
@@ -169,7 +168,7 @@ export default function Home() {
                             <p className="text-gray-600 text-sm">Curious about other healthy recipes?</p>
                             <Button
                                 className="bg-secondary hover:bg-teal-600 text-white"
-                                onClick={() => navigate("/recipes")}
+                                onClick={() => navigate("/recipe")}
                             >
                                 See more!
                             </Button>

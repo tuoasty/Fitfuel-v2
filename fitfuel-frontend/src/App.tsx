@@ -10,6 +10,7 @@ import DailyCalorieIntake from "./lib/pages/DailyCalorieIntake.tsx";
 import Recipes from "./lib/pages/Recipes.tsx";
 import RecipeDetail from "./lib/pages/RecipeDetail.tsx";
 import Articles from "./lib/pages/Articles.tsx";
+import Chat from "./lib/pages/Chat.tsx";
 
 function App() {
     return (
@@ -33,8 +34,9 @@ function App() {
                             <Route path="home" element={<Home/>}/>
                             <Route path="daily-calorie-intake" element={<DailyCalorieIntake/>}/>
                             <Route path="article" element={<Articles/>}/>
+                            <Route path="chat" element={<Chat onBack={()=>window.history.back()}/>}/>
                             <Route path="recipe" element={<Recipes/>}/>
-                            <Route path="recipe/:recipeId" element={<RecipeDetail/>}/>
+                            <Route path="recipe/:recipeId" element={<RecipeDetail onBack={()=>window.history.back()}/>}/>
                         </Route>
                     </Routes>
                 </BrowserRouter>
